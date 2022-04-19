@@ -5,3 +5,4 @@
 ## Wichtige Dokumente
 
 - [Lastenheft Strategiespiel](Dokumente/Lastenheft%20Strategiespiel.pdf)
+- [GUI vergleich](Dokumente/GUI%20vergleich.pdf)
