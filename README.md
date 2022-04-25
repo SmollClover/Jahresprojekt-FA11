@@ -13,3 +13,8 @@
 
 - [Pflichtenheft](Notizen/Pflichtenheft.md)
 - [Datenbank Struktur](Notizen/Datenbank%20Struktur.md)
+
+### Pseudo Code
+
+- [Datenbank](Pseudo%20Code/datenbank.sql)
+- [Befehle](Pseudo%20Code/befehle.sql)
