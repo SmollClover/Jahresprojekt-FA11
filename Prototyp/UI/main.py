@@ -12,8 +12,8 @@ screen = pygame.display.set_mode(res)
 #Game Fenster
 background = pygame.Surface(res)
 manager = pygame_gui.UIManager(res, 'Themes/base.json')
-manager.get_theme().load_theme('Themes/label.json')
-manager.get_theme().load_theme('Themes/button.json')
+#manager.get_theme().load_theme('Themes/label.json')
+#manager.get_theme().load_theme('Themes/button.json')
 clock = pygame.time.Clock()
 #----------[/Meta]----------------------------------------
 #----------[Funktionen]---------------------------------
@@ -32,11 +32,13 @@ def main_menu():
     #Label
     menu_text = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]/2-50, 20), (100, 50)), text="Main Menu", manager=manager)
     
+    #Hidden Menu 
+    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 250)),starting_layer_height=1, manager=manager,visible=0)
+    
     #Buttons
     
-    
     user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (50, 50)),
-                                             text='Test', manager=manager)
+                                             text='User', manager=manager)
     
     gamebutton_offset = -125
     rulesbutton_offset = 125
@@ -79,6 +81,7 @@ def main_menu():
     is_running = True
     while is_running:
         
+        
         #Fenster Titel
         pygame.display.set_caption('Main Menu')
         
@@ -92,7 +95,15 @@ def main_menu():
                 is_running = False
             
             #Buttons Funktionen
+                
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                
+                if event.ui_element == user_button:
+                    if dd_menu.visible == 0:
+                        dd_menu.visible = 1
+                    else:
+                        dd_menu.visible = 0
+                
                 #Game1
                 if event.ui_element == game1_button:
                     print('Game1_clicked')
