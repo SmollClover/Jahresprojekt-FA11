@@ -3,7 +3,7 @@ USE JahresAbschlussProjektGruppe1;
 
 CREATE TABLE user (
     id INT(255) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
     registered TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
