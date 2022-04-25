@@ -1,7 +1,5 @@
 import pygame
 
-# https://github.com/EnemigoPython/chess/blob/main/main.py
-
 class TicTacToe: 
 
     SIZE = 6
@@ -13,7 +11,6 @@ class TicTacToe:
     BOARD_COLOR = (255,255,255)
     PLAYER = True
     BOARD=[]
-    CHIPS=[]
     WIN_COUNT = 4
 
     def __init__(self):
