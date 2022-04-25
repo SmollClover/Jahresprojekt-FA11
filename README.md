@@ -12,3 +12,4 @@
 ### Notizen
 
 - [Pflichtenheft](Notizen/Pflichtenheft.md)
+- [Datenbank Struktur](Notizen/Datenbank%20Struktur.md)
