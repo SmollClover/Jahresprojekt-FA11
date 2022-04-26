@@ -12,6 +12,12 @@ class TicTacToe:
     PLAYER = True
     BOARD=[]
     WIN_COUNT = 4
+    STATE = {
+        "DRAW": -1,
+        "NOBODY": 0,
+        "PLAYER": 1,
+        "KI": 2,
+    }
 
     def __init__(self):
         self.BOARD = [[0 for x in range(self.SIZE)] for y in range(self.SIZE)]
@@ -26,8 +32,13 @@ class TicTacToe:
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     self.handleClickEvent(event)
-                    if self.winCondition():
-                        print('Gewonnen!')
+                    winnerState = self.boardCondition()
+                    if winnerState == self.STATE["DRAW"]:
+                        print('Unentschieden!')
+                    elif winnerState == self.STATE["PLAYER"]:
+                        print('Der/Die SpielerIn hat gewonnen!')
+                    elif winnerState == self.STATE["KI"]:
+                        print('Die KI hat gewonnen!')
             pygame.display.flip()
 
         print("Exit program")
@@ -61,7 +72,14 @@ class TicTacToe:
                         self.PLAYER = not self.PLAYER
                     return
 
-    def winCondition(self):
+    def boardCondition(self):
+        def isDraw():
+            for column in range(len(self.BOARD)):
+                for block in range(len(self.BOARD[0])):
+                    if self.BOARD[column][block][1] == self.BOARD_COLOR:
+                        return self.STATE["NOBODY"]
+            return self.STATE["DRAW"]
+
         def isHorizontalWin():
             for row in range(len(self.BOARD[0])):
                 lastColor = ()
@@ -77,8 +95,13 @@ class TicTacToe:
                         colorInARow = 1
                         lastColor = blockColor
                     if colorInARow == self.WIN_COUNT:
-                        return True
-            return False
+                        if blockColor == self.CHIP_COLOR[True]:
+                            print("horizontal")
+                            return self.STATE["PLAYER"]
+                        else:
+                            print("horizontal")
+                            return self.STATE["KI"]
+            return self.STATE["NOBODY"]
 
         def isVerticalWin():
             for col in range(len(self.BOARD)):
@@ -95,9 +118,14 @@ class TicTacToe:
                         colorInACol = 1
                         lastColor = blockColor
                     if colorInACol == self.WIN_COUNT:
-                        return True
-            return False
- 
+                        if blockColor == self.CHIP_COLOR[True]:
+                            print("vertical")
+                            return self.STATE["PLAYER"]
+                        else:
+                            print("vertical")
+                            return self.STATE["KI"]
+            return self.STATE["NOBODY"]
+
         def isDiagonalLeftWin():
             colLen = len(self.BOARD)
             rowLen = len(self.BOARD[0])
@@ -106,15 +134,37 @@ class TicTacToe:
                     if not (col <= self.WIN_COUNT - 2 or rowLen-1 - row <= self.WIN_COUNT - 2):
                         color = set()
                         for c in range(self.WIN_COUNT):
-                            color.add(self.BOARD[col-c][row-c][1])
-                        print(color)
-                        # TODO: check amount of colors in set (and take care of BOARD_COLOR)
-            return False
+                            color.add(self.BOARD[col-c][row+c][1])
+                        if len(color) == 1 and list(color)[0] == self.CHIP_COLOR[True]:
+                            print("diagonallinks")
+                            return self.STATE["PLAYER"]
+                        elif len(color) == 1 and list(color)[0] == self.CHIP_COLOR[False]:
+                            print("diagonallinks")
+                            return self.STATE["KI"]
+            return self.STATE["NOBODY"]
 
         def isDiagonalRightWin():
-            return False
+            colLen = len(self.BOARD)
+            rowLen = len(self.BOARD[0])
+            for col in range(colLen):
+                for row in range(rowLen):
+                    if not (rowLen-1 - row <= self.WIN_COUNT - 2 or colLen-1 - col <= self.WIN_COUNT - 2):
+                        color = set()
+                        for c in range(self.WIN_COUNT):
+                            color.add(self.BOARD[col+c][row+c][1])
+                        if len(color) == 1 and list(color)[0] == self.CHIP_COLOR[True]:
+                            print("diagonalrechts")
+                            return self.STATE["PLAYER"]
+                        elif len(color) == 1 and list(color)[0] == self.CHIP_COLOR[False]:
+                            print("diagonalrechts")
+                            return self.STATE["KI"]
+            return self.STATE["NOBODY"]
 
-        return isHorizontalWin() or isVerticalWin() or isDiagonalLeftWin() or isDiagonalRightWin()
+        states = [isDraw(), isHorizontalWin(), isVerticalWin(), isDiagonalLeftWin(), isDiagonalRightWin()]
+        for state in states:
+            if state != self.STATE["NOBODY"]:
+                return state
+        return self.STATE["NOBODY"]
 
 if __name__=="__main__":
     TicTacToe()
