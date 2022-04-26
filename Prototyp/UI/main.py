@@ -43,73 +43,60 @@ def main_menu():
     gamebutton_offset = -125
     rulesbutton_offset = 125
     scorebutton_offset = 175
+    
     #Game1 Buttons
-    game1_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 100), (250, 50)),
+    
+    game1_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 100), (85, 50)),
+                                             text='Leicht', manager=manager, visible=0)
+    game1_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 100), (85, 50)),
+                                             text='Mittel', manager=manager, visible=0)
+    game1_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 100), (85, 50)),
+                                             text='Schwer', manager=manager, visible=0)
+    
+    game1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 100), (250, 50)),
                                              text='Bauernschach', manager=manager)
     
-    
-    clock = pygame.time.Clock()
-    is_running = True
-    
-    while is_running:
-        time_delta = clock.tick(60)/1000.0
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                is_running = False
-                
-                if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == game1_buttons:
-                        print('Hello World!')
-                        
-            manager.process_events(event)
-                    
-        manager.update(time_delta)
-                        
-        screen.blit(background, (0, 0))
-        manager.draw_ui(screen)
-                        
-        pygame.display.update()
-    
-    #game1_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 100), (80, 50)),
-    #                                         text='Leicht', manager=manager)
-    #game1_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-50, 100), (80, 50)),
-    #                                         text='Mittel', manager=manager)
-    #game1_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+25, 100), (80, 50)),
-    #                                         text='Schwer', manager=manager)
-    
     game1_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+rulesbutton_offset, 100), (50, 50)),
-                                             text='Game1_rules', manager=manager)
+                                             text='rules', manager=manager)
     
     game1_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+scorebutton_offset, 100), (50, 50)),
-                                             text='Game1_score', manager=manager)
+                                             text='score', manager=manager)
 
     #Game2 Buttons
-    game2_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 175), (80, 50)),
-                                             text='Leicht', manager=manager)
-    game2_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-50, 175), (80, 50)),
-                                             text='Mittel', manager=manager)
-    game2_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+25, 175), (80, 50)),
-                                             text='Schwer', manager=manager)
+    
+    game2_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 175), (85, 50)),
+                                             text='Leicht', manager=manager, visible=0)
+    game2_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 175), (85, 50)),
+                                             text='Mittel', manager=manager, visible=0)
+    game2_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 175), (85, 50)),
+                                             text='Schwer', manager=manager, visible=0)
+    
+    game2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 175), (250, 50)),
+                                             text='Dame', manager=manager)
     
     game2_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+rulesbutton_offset, 175), (50, 50)),
-                                             text='Game2_rules', manager=manager)
+                                             text='rules', manager=manager)
     
     game2_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+scorebutton_offset, 175), (50, 50)),
-                                             text='Game2_score', manager=manager)
+                                             text='score', manager=manager)
+    
     #Game3 Buttons
     
-    game3_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 250), (80, 50)),
-                                             text='Leicht', manager=manager)
-    game3_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-50, 250), (80, 50)),
-                                             text='Mittel', manager=manager)
-    game3_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+25, 250), (80, 50)),
-                                             text='Schwer', manager=manager)
+    game3_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 250), (85, 50)),
+                                             text='Leicht', manager=manager, visible=0)
+    game3_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 250), (85, 50)),
+                                             text='Mittel', manager=manager, visible=0)
+    game3_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 250), (85, 50)),
+                                             text='Schwer', manager=manager, visible=0)
+    
+    game3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 250), (250, 50)),
+                                             text='Tic-Tac-Toe', manager=manager)
     
     game3_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+rulesbutton_offset, 250), (50, 50)),
-                                             text='Game3_rules', manager=manager)
+                                             text='rules', manager=manager)
     
     game3_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+scorebutton_offset, 250), (50, 50)),
-                                             text='Game3_score', manager=manager)
+                                             text='score', manager=manager)
     
 
     quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-200, 325), (250, 50)),
@@ -133,9 +120,25 @@ def main_menu():
             
             #Buttons Funktionen
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                
                 #Game1
                 if event.ui_element == game1_button:
                     print('Game1_clicked')
+                    game1_button.hide()
+                    game2_button.show()
+                    game3_button.show()
+                    game1_buttonl.show()
+                    game1_buttonm.show()
+                    game1_buttons.show()
+                    
+                    game2_buttonl.hide()
+                    game2_buttonm.hide()
+                    game2_buttons.hide()
+                    
+                    game3_buttonl.hide()
+                    game3_buttonm.hide()
+                    game3_buttons.hide()
+               
                     
                 if event.ui_element == game1_rules_button:
                     print('Game1_rules_clicked')
@@ -146,6 +149,20 @@ def main_menu():
                  #Game2
                 if event.ui_element == game2_button:
                     print('Game2_clicked')
+                    game2_button.hide()
+                    game1_button.show()
+                    game3_button.show()
+                    game2_buttonl.show()
+                    game2_buttonm.show()
+                    game2_buttons.show()
+                    
+                    game1_buttonl.hide()
+                    game1_buttonm.hide()
+                    game1_buttons.hide()
+                    
+                    game3_buttonl.hide()
+                    game3_buttonm.hide()
+                    game3_buttons.hide()
                     
                 if event.ui_element == game2_rules_button:
                     print('Game2_rules_clicked')
@@ -156,20 +173,34 @@ def main_menu():
                  #Game3
                 if event.ui_element == game3_button:
                     print('Game3_clicked')
+                    game3_button.hide()
+                    game1_button.show()
+                    game2_button.show()
+                    game3_buttonl.show()
+                    game3_buttonm.show()
+                    game3_buttons.show()
+                    
+                    game1_buttonl.hide()
+                    game1_buttonm.hide()
+                    game1_buttons.hide()
+                    
+                    game2_buttonl.hide()
+                    game2_buttonm.hide()
+                    game2_buttons.hide()
+                    
                     
                 if event.ui_element == game3_rules_button:
                     print('Game3_rules_clicked')
                     
                 if event.ui_element == game3_score_button:
                     print('Game3_score_clicked')
-    
                     
                     #Hide Elemente
                     
                 if event.ui_element == quit_button:
                     print('Quit!')
                     is_running = False
-               
+                             
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))
