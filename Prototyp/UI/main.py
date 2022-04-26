@@ -26,22 +26,25 @@ def main_menu():
     
     
     #Hintergrundfarbe
-    background.fill(pygame.Color('#ED9121'))
+    background.fill(pygame.Color("#3c3c3c"))
     
     #--------------------Elemente------------------------
     #Label
-    menu_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]/2-50, 20), (100, 50)), text="Main Menu", manager=manager)
-    
+    menu_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]/2-150, 20), (300, 50)), text="Hauptbildschirm", manager=manager)
     #User Menu
-    pos = pygame.mouse.get_pos()
     
     user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (50, 50)),
                                              text='User', manager=manager)
-    
     dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 205)),starting_layer_height=0, manager=manager,visible=0)
     
     signin_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)),
-                                               text="Anmelden", manager=manager,visible=0)
+                                               text="Anmelden", manager=manager,visible=0,starting_height=3)
+    
+    signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)),
+                                               text="Registrieren", manager=manager,visible=0,starting_height=3)
+    
+    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)),
+                                               text="Quit", manager=manager,visible=0,starting_height=3)
 
     ##Anmelden----
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
@@ -50,16 +53,11 @@ def main_menu():
     id_txtentry = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((5, 180), (190, 30)), manager=manager,visible=0)
     pw_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 210), (190, 30)), text="Passwort:", manager=manager,visible=0)
     pw_txtentry = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((5, 235), (190, 30)), manager=manager,visible=0)
-    ok_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 270), (95, 30)),
-                                               text="Ok", manager=manager,visible=0)
+    ok_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 270), (95, 30)), text="Ok", manager=manager,visible=0)
     ##-------------
-    signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)),
-                                               text="Registrieren", manager=manager,visible=0)
     
-    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)),
-                                               text="Quit", manager=manager,visible=0)
     
-    #Hauptbildschirm Buttons 
+    #Main Buttons 
     button_height = 75
     big_button_width = 300
     small_button_width = 75
@@ -70,61 +68,55 @@ def main_menu():
     gamebutton_offset = (button_hori_startposition)
     rulesbutton_offset = button_hori_startposition+big_button_width+button_hori_gap
     scorebutton_offset = button_hori_startposition+big_button_width+(2*button_hori_gap)+small_button_width
-    #Game1 Buttons
+   
+   #Game1 Buttons
     game1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, button_vert_startposition), (big_button_width, button_height)),
-                                             text='Game1', manager=manager,starting_height=1)
-    
+                                             text='Game1', manager=manager,starting_height=-2)
     game1_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, button_vert_startposition), (small_button_width, button_height)),
-                                             text='?', manager=manager,starting_height=1)
-    
+                                             text='?', manager=manager,starting_height=-2)
     game1_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, button_vert_startposition), (small_button_width, button_height)),
-                                             text='Score', manager=manager,starting_height=1)
+                                             text='Score', manager=manager,starting_height=-2)
+
+    #Game1 Difficulty Buttons
+    game1_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, button_vert_startposition), (big_button_width/3+4, button_height)),
+                                             text='Leicht', manager=manager, visible=0, starting_height=-1)
+    game1_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(((gamebutton_offset+(big_button_width/3)), button_vert_startposition), (big_button_width/3+4, button_height)),
+                                             text='Mittel', manager=manager, visible=0, starting_height=-1)
+    game1_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset+(big_button_width/3*2), button_vert_startposition), (big_button_width/3, button_height)),
+                                             text='Schwer', manager=manager, visible=0, starting_height=-1)    
 
     #Game2 Buttons
     game2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (big_button_width, button_height)),
-                                             text='Game2', manager=manager,starting_height=-1)
-    
+                                             text='Game2', manager=manager,starting_height=-2)
     game2_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (small_button_width, button_height)),
-                                             text='?', manager=manager,starting_height=-1)
-    
+                                             text='?', manager=manager,starting_height=-2)
     game2_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (small_button_width, button_height)),
-                                             text='Game2_score', manager=manager,starting_height=-1)
+                                             text='Score', manager=manager,starting_height=-2)
+    
+    #Game2 Difficulty Buttons
+    game2_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (big_button_width/3+4, button_height)),
+                                             text='Leicht', manager=manager, visible=0, starting_height=-1)
+    game2_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(((gamebutton_offset+(big_button_width/3)), (button_vert_startposition + button_height + button_vert_gap)), (big_button_width/3+4, button_height)),
+                                             text='Mittel', manager=manager, visible=0, starting_height=-1)
+    game2_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset+(big_button_width/3*2), (button_vert_startposition + button_height + button_vert_gap)), (big_button_width/3, button_height)),
+                                             text='Schwer', manager=manager, visible=0, starting_height=-1)
+    
     #Game3 Buttons
     
     game3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (big_button_width, button_height)),
-                                             text='Game3', manager=manager,starting_height=-1)
-    
+                                             text='Game3', manager=manager,starting_height=-2)  
     game3_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width, button_height)),
-                                             text='?', manager=manager,starting_height=-1)
-    
+                                             text='?', manager=manager,starting_height=-2) 
     game3_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width, button_height)),
-                                             text='Game3_score', manager=manager,starting_height=-1)
+                                             text='Score', manager=manager,starting_height=-2)
     
-    #Game1 Buttons
-    game1_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 100), (85, 50)),
-                                             text='Leicht', manager=manager, visible=0)
-    game1_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 100), (85, 50)),
-                                             text='Mittel', manager=manager, visible=0)
-    game1_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 100), (85, 50)),
-                                             text='Schwer', manager=manager, visible=0)    
-    #Game2 Buttons
-    game2_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 175), (85, 50)),
-                                             text='Leicht', manager=manager, visible=0)
-    game2_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 175), (85, 50)),
-                                             text='Mittel', manager=manager, visible=0)
-    game2_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 175), (85, 50)),
-                                             text='Schwer', manager=manager, visible=0)
-
-    #Game3 Buttons
-    game3_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 250), (85, 50)),
-                                             text='Leicht', manager=manager, visible=0)
-    game3_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 250), (85, 50)),
-                                             text='Mittel', manager=manager, visible=0)
-    game3_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 250), (85, 50)),
-                                             text='Schwer', manager=manager, visible=0)
-    
-
-  
+    #Game3 Difficulty Buttons
+    game3_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (big_button_width/3+4, button_height)),
+                                             text='Leicht', manager=manager, visible=0, starting_height=-1)
+    game3_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(((gamebutton_offset+(big_button_width/3)), (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (big_button_width/3+4, button_height)),
+                                             text='Mittel', manager=manager, visible=0, starting_height=-1)
+    game3_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset+(big_button_width/3*2), (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (big_button_width/3, button_height)),
+                                             text='Schwer', manager=manager, visible=0, starting_height=-1)
     
     #-----------------------------------------------------
     is_running = True
@@ -145,7 +137,7 @@ def main_menu():
             #Buttons Funktionen
                 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:   
-                #Hidden menu
+                #User menu
                 if event.ui_element == user_button:
                     if dd_menu.visible == 0:
                         dd_menu.visible = 1
@@ -155,6 +147,21 @@ def main_menu():
                         user_lbl.show()
                         username_lbl.show()
                         
+                        game1_buttonl.hide()
+                        game1_buttonm.hide()
+                        game1_buttons.hide()
+                    
+                        game2_buttonl.hide()
+                        game2_buttonm.hide()
+                        game2_buttons.hide()
+                    
+                        game3_buttonl.hide()
+                        game3_buttonm.hide()
+                        game3_buttons.hide()
+                        
+                        game1_button.show()
+                        game2_button.show()
+                        game3_button.show()
                     else:
                         dd_menu.visible = 0
                         quit_button.hide()
@@ -221,13 +228,16 @@ def main_menu():
                         pw_txtentry.hide()
                         ok_button.hide()
                         dd_menu.set_dimensions((200, 205))
+                        signup_button.set_position((5,150))
                         quit_button.set_position((5,200))
+                        
                 #Game1
                 if event.ui_element == game1_button:
                     print('Game1_clicked')
                     game1_button.hide()
                     game2_button.show()
                     game3_button.show()
+                    
                     game1_buttonl.show()
                     game1_buttonm.show()
                     game1_buttons.show()
@@ -240,6 +250,20 @@ def main_menu():
                     game3_buttonm.hide()
                     game3_buttons.hide()
                
+                    dd_menu.visible = 0
+                    quit_button.hide()
+                    signin_button.hide()
+                    signup_button.hide()
+                    user_lbl.hide()
+                    username_lbl.hide()
+                    id_lbl.hide()
+                    pw_lbl.hide()
+                    id_txtentry.hide()
+                    pw_txtentry.hide()
+                    ok_button.hide()
+                    dd_menu.set_dimensions((200, 205))
+                    signup_button.set_position((5,150))
+                    quit_button.set_position((5,200))
                     
                 if event.ui_element == game1_rules_button:
                     print('Game1_rules_clicked')
@@ -253,6 +277,7 @@ def main_menu():
                     game2_button.hide()
                     game1_button.show()
                     game3_button.show()
+                    
                     game2_buttonl.show()
                     game2_buttonm.show()
                     game2_buttons.show()
@@ -264,6 +289,21 @@ def main_menu():
                     game3_buttonl.hide()
                     game3_buttonm.hide()
                     game3_buttons.hide()
+                    
+                    dd_menu.visible = 0
+                    quit_button.hide()
+                    signin_button.hide()
+                    signup_button.hide()
+                    user_lbl.hide()
+                    username_lbl.hide()
+                    id_lbl.hide()
+                    pw_lbl.hide()
+                    id_txtentry.hide()
+                    pw_txtentry.hide()
+                    ok_button.hide()
+                    dd_menu.set_dimensions((200, 205))
+                    signup_button.set_position((5,150))
+                    quit_button.set_position((5,200))
                     
                 if event.ui_element == game2_rules_button:
                     print('Game2_rules_clicked')
@@ -277,6 +317,7 @@ def main_menu():
                     game3_button.hide()
                     game1_button.show()
                     game2_button.show()
+                    
                     game3_buttonl.show()
                     game3_buttonm.show()
                     game3_buttons.show()
@@ -289,6 +330,20 @@ def main_menu():
                     game2_buttonm.hide()
                     game2_buttons.hide()
                     
+                    dd_menu.visible = 0
+                    quit_button.hide()
+                    signin_button.hide()
+                    signup_button.hide()
+                    user_lbl.hide()
+                    username_lbl.hide()
+                    id_lbl.hide()
+                    pw_lbl.hide()
+                    id_txtentry.hide()
+                    pw_txtentry.hide()
+                    ok_button.hide()
+                    dd_menu.set_dimensions((200, 205))
+                    signup_button.set_position((5,150))
+                    quit_button.set_position((5,200))
                     
                 if event.ui_element == game3_rules_button:
                     print('Game3_rules_clicked')
@@ -321,14 +376,9 @@ def settings():
     settings_text = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((20, 20), (100, 50)), text="Settings", manager=manager)
 
     #Buttons
-    resolution_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 115), (200, 50)),
-                                             text='Resolution', manager=manager)
-
-    theme_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 175), (200, 50)),
-                                               text="Theme", manager=manager)
-
-    back_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 235), (200, 50)),
-                                               text="Back", manager=manager)
+    resolution_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 115), (200, 50)), text='Resolution', manager=manager)
+    theme_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 175), (200, 50)), text="Theme", manager=manager)
+    back_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 235), (200, 50)), text="Back", manager=manager)
     
     #---------------------------------------------------
     is_running = True
