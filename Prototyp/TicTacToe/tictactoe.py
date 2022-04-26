@@ -152,7 +152,27 @@ class TicTacToe:
         for col in range(len(self.__boardState)):
             s = ""
             for row in range(len(self.__boardState[0])):
-                s = s + str(self.__boardState[col][row]) + " "
+                if self.__boardState[col][row] == self.__boardStateEnum["PLAYER"]:
+                    icon = "P"
+                elif self.__boardState[col][row] == self.__boardStateEnum["KI"]:
+                    icon = "K"
+                else:
+                    icon = "-"
+                s = s + icon + " "
             print(s)
-        print("--")
+        print("-----------")
                 
+
+if __name__=="__main__":
+    ttt = TicTacToe(4, 6, 6)
+    state = ttt.getGameState()
+    while state == 0:
+        print("Next round:")
+        ttt.printState()
+        column = int(input("Column: "))
+        row = int(input("Row: "))
+        if ttt.clickBlock(column, row):
+            player = ttt.getCurrPlayer()
+            state = ttt.getGameState()
+            print("state: " + str(state), "player: " + str(player))
+        
