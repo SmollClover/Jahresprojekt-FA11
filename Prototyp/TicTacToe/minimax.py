@@ -2,13 +2,13 @@ from math import inf
 
 def minimax(game, state, depth, player):
     PLAYER = {
-        "max": 1,
-        "min": -1,
+        "min": 1,
+        "max": -1,
         "undefined": 0
     }
 
     if player == PLAYER["max"]:
-        best = [0, 0, -inf]    #Was sagt uns die 0?
+        best = [0, 0, -inf]
     elif player == PLAYER["min"]:
         best = [0, 0, +inf]
 
@@ -17,13 +17,13 @@ def minimax(game, state, depth, player):
         return [0, 0, score]
 
     for block in game.emptyBlocks(state):
-        x = block[0]
-        y = block[1]
-        state[x][y] = player
+        col = block[0]
+        row = block[1]
+        state[col][row] = player
         score = minimax(game, state, depth-1, -player)
-        state[x][y] = PLAYER["undefined"]
-        score[0] = x
-        score[1] = y
+        state[col][row] = PLAYER["undefined"]
+        score[0] = col
+        score[1] = row
 
         if player == PLAYER["max"]:
             if score[2] > best[2]:

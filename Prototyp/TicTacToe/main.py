@@ -46,7 +46,10 @@ class TicTacToe:
                             self.STATE_GAME = winnerState
                             print('Die KI hat gewonnen!')
                         self.PLAYER = -self.PLAYER
-                        print(minimax(self, self.STATE_BOARD, 2, self.PLAYER))
+                        temp = minimax(self, self.STATE_BOARD, 2, self.PLAYER)
+                        if self.PLAYER == -1:
+                            self.__drawChip(temp[0], temp[1])
+                            self.PLAYER = -self.PLAYER
             pygame.display.flip()
 
         print("Exit program")
