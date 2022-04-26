@@ -2,8 +2,6 @@ import pygame
 import pygame_gui
 
 
-
-
 #--------[Meta]------------------------------------------
 pygame.init()
 #Auflösung
@@ -22,18 +20,20 @@ clock = pygame.time.Clock()
 #-----------[/Funktionen]----------------------------------
 
 #--------------------[Main Menu-Screen]-----------------------------------
+
 def main_menu():
    
     
     
     #Hintergrundfarbe
-    background.fill(pygame.Color('#9c9c9c'))
+    background.fill(pygame.Color('#ED9121'))
     
     #--------------------Elemente------------------------
     #Label
     menu_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]/2-50, 20), (100, 50)), text="Main Menu", manager=manager)
     
     #User Menu
+    pos = pygame.mouse.get_pos()
     
     user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (50, 50)),
                                              text='User', manager=manager)
@@ -42,7 +42,7 @@ def main_menu():
     
     signin_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)),
                                                text="Anmelden", manager=manager,visible=0)
-    
+
     ##Anmelden----
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
     username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager,visible=0)
@@ -74,9 +74,6 @@ def main_menu():
     game1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, button_vert_startposition), (big_button_width, button_height)),
                                              text='Game1', manager=manager,starting_height=1)
     
-    game_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, button_vert_startposition), (big_button_width/2, button_height)),
-                                             text='Hover', manager=manager,starting_height=2, visible = 0)
-    
     game1_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, button_vert_startposition), (small_button_width, button_height)),
                                              text='?', manager=manager,starting_height=1)
     
@@ -103,6 +100,29 @@ def main_menu():
     game3_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width, button_height)),
                                              text='Game3_score', manager=manager,starting_height=-1)
     
+    #Game1 Buttons
+    game1_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 100), (85, 50)),
+                                             text='Leicht', manager=manager, visible=0)
+    game1_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 100), (85, 50)),
+                                             text='Mittel', manager=manager, visible=0)
+    game1_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 100), (85, 50)),
+                                             text='Schwer', manager=manager, visible=0)    
+    #Game2 Buttons
+    game2_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 175), (85, 50)),
+                                             text='Leicht', manager=manager, visible=0)
+    game2_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 175), (85, 50)),
+                                             text='Mittel', manager=manager, visible=0)
+    game2_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 175), (85, 50)),
+                                             text='Schwer', manager=manager, visible=0)
+
+    #Game3 Buttons
+    game3_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+gamebutton_offset, 250), (85, 50)),
+                                             text='Leicht', manager=manager, visible=0)
+    game3_buttonm = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+-45, 250), (85, 50)),
+                                             text='Mittel', manager=manager, visible=0)
+    game3_buttons = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2+35, 250), (85, 50)),
+                                             text='Schwer', manager=manager, visible=0)
+    
 
   
     
@@ -112,7 +132,7 @@ def main_menu():
         
             
         #Fenster Titel
-        pygame.display.set_caption('Main Menu')
+        pygame.display.set_caption('Spiele')
         
         #Show Elemente
         
@@ -124,8 +144,7 @@ def main_menu():
             
             #Buttons Funktionen
                 
-            if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                
+            if event.type == pygame_gui.UI_BUTTON_PRESSED:   
                 #Hidden menu
                 if event.ui_element == user_button:
                     if dd_menu.visible == 0:
@@ -206,6 +225,21 @@ def main_menu():
                 #Game1
                 if event.ui_element == game1_button:
                     print('Game1_clicked')
+                    game1_button.hide()
+                    game2_button.show()
+                    game3_button.show()
+                    game1_buttonl.show()
+                    game1_buttonm.show()
+                    game1_buttons.show()
+                    
+                    game2_buttonl.hide()
+                    game2_buttonm.hide()
+                    game2_buttons.hide()
+                    
+                    game3_buttonl.hide()
+                    game3_buttonm.hide()
+                    game3_buttons.hide()
+               
                     
                 if event.ui_element == game1_rules_button:
                     print('Game1_rules_clicked')
@@ -216,6 +250,20 @@ def main_menu():
                  #Game2
                 if event.ui_element == game2_button:
                     print('Game2_clicked')
+                    game2_button.hide()
+                    game1_button.show()
+                    game3_button.show()
+                    game2_buttonl.show()
+                    game2_buttonm.show()
+                    game2_buttons.show()
+                    
+                    game1_buttonl.hide()
+                    game1_buttonm.hide()
+                    game1_buttons.hide()
+                    
+                    game3_buttonl.hide()
+                    game3_buttonm.hide()
+                    game3_buttons.hide()
                     
                 if event.ui_element == game2_rules_button:
                     print('Game2_rules_clicked')
@@ -226,18 +274,34 @@ def main_menu():
                  #Game3
                 if event.ui_element == game3_button:
                     print('Game3_clicked')
+                    game3_button.hide()
+                    game1_button.show()
+                    game2_button.show()
+                    game3_buttonl.show()
+                    game3_buttonm.show()
+                    game3_buttons.show()
+                    
+                    game1_buttonl.hide()
+                    game1_buttonm.hide()
+                    game1_buttons.hide()
+                    
+                    game2_buttonl.hide()
+                    game2_buttonm.hide()
+                    game2_buttons.hide()
+                    
                     
                 if event.ui_element == game3_rules_button:
                     print('Game3_rules_clicked')
                     
                 if event.ui_element == game3_score_button:
                     print('Game3_score_clicked')
-    
                     
                     #Hide Elemente
                     
-                
-               
+                if event.ui_element == quit_button:
+                    print('Quit!')
+                    is_running = False
+                             
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))
