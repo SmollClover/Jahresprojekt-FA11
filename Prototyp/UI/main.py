@@ -1,6 +1,8 @@
 import pygame
 import pygame_gui
 
+from dbManager import DbManager
+
 
 #--------[Meta]------------------------------------------
 pygame.init()
@@ -363,67 +365,12 @@ def main_menu():
             manager.draw_ui(screen)
             pygame.display.update()
     pygame.quit()
-#-----------------[/Main Menu-Screen]-----------------------------------------------------    
-#-----------------[Settings-Screen]-----------------------------------------
-def settings():
-    
+#-----------------[/Main Menu-Screen]-----------------------------------------------------
 
-    #Hintergrundfarbe
-    background.fill(pygame.Color('#9c9c9c'))
-    
-    #--------------------Elemente---------------------
-    #Label
-    settings_text = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((20, 20), (100, 50)), text="Settings", manager=manager)
-
-    #Buttons
-    resolution_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 115), (200, 50)), text='Resolution', manager=manager)
-    theme_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 175), (200, 50)), text="Theme", manager=manager)
-    back_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]/2-100, 235), (200, 50)), text="Back", manager=manager)
-    
-    #---------------------------------------------------
-    is_running = True
-    while is_running:
-        
-        #Fenster Titel
-        pygame.display.set_caption('Settings')
-    
-        #Show Elemente
-        settings_text.show()
-        resolution_button.show()
-        theme_button.show()
-        back_button.show()
-        
-        time_delta = clock.tick(60)/1000.0
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                is_running = False
-            
-            #Buttons Funktionen
-            if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                if event.ui_element == resolution_button:
-                    print('Resolution!')
-                      
-                if event.ui_element == theme_button:
-                    print('Theme!')
-                    
-                if event.ui_element == back_button:
-                    print('Back!')
-                    
-                    #Hide Elemente
-                    settings_text.hide()
-                    resolution_button.hide()
-                    theme_button.hide()
-                    back_button.hide()
-                    
-                    is_running = False
-               
-            manager.process_events(event)
-            manager.update(time_delta)
-            screen.blit(background, (0, 0))
-            manager.draw_ui(screen)
-            pygame.display.update()
-
-#---------------------[/Settings-Screen]----------------------------------
 #--------------------------------Main-------------------------------------
+db_manager = DbManager()
+
 main_menu()
+
+
     
