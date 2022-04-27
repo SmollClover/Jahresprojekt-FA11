@@ -7,7 +7,7 @@ class DbManager:
         self.createTables()
 
     def createTables(self):
-        connection = sqlite3.connect("Datenbank/minimax.db")
+        connection = sqlite3.connect("Database/minimax.db")
         cursor = connection.cursor()
         createTableUser = """
             CREATE TABLE IF NOT EXISTS user (
@@ -46,7 +46,7 @@ class DbManager:
 
 # Benutzer registrieren
     def register(self, username, password):
-        connection = sqlite3.connect("Datenbank/minimax.db")
+        connection = sqlite3.connect("Database/minimax.db")
         hashedPass = hashlib.sha3_512(password.encode())
         cursor = connection.cursor()
 
@@ -72,7 +72,7 @@ class DbManager:
         return result
 # Benutzer einloggen
     def login(self, username, password):
-        connection = sqlite3.connect("Datenbank/minimax.db")
+        connection = sqlite3.connect("Database/minimax.db")
         hashedPass = hashlib.sha3_512(password.encode())
         cursor = connection.cursor()
         cursor.execute("""

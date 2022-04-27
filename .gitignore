@@ -134,5 +134,5 @@ dmypy.json
 # IDE
 .vscode/
 
-# Datenbank
-Datenbank/
+# Database
+Database/minimax.db
