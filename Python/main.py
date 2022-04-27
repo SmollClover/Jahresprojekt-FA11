@@ -17,10 +17,25 @@ manager = pygame_gui.UIManager(res, 'Themes/base.json')
 clock = pygame.time.Clock()
 #----------[/Meta]----------------------------------------
 #----------[Funktionen]---------------------------------
-#Rules Windows
+#Popup Windows
 def open_popup(text,title,width,height):
-    rules_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-200,10),(width,height)),html_message=text,manager=manager,window_title=title)
-    
+    popup_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-200,10),(width,height)),html_message=text,manager=manager,window_title=title)
+
+#Login
+def login(username, password):
+    result = db_manager.login(username, password) #result = False | User
+    if result:
+        popupText = "Hallo " + result.getName() + "! Du hast dich erfolgreich eingeloggt."
+        open_popup(popupText, "Login", 250, 170)
+        return result.getName()
+
+#Register
+def register(username, password):
+    successful = db_manager.register(username, password)                    
+    if successful:
+        open_popup("Du hast dich erfolgreich registriert!", "Registrierung", 250, 170)
+    else:
+        open_popup("Der Benutzername ist bereits vergeben.", "Registrierung", 250, 170)
 #-----------[/Funktionen]----------------------------------
 #-----------[Langtexte]---------------------------------
 ipsum= "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
@@ -30,7 +45,6 @@ ipsum= "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
 #--------------------[Main Menu-Screen]-----------------------------------
 
 def main_menu():
-
     #Hintergrundfarbe
     background.fill(pygame.Color("#3c3c3c"))
     
@@ -40,20 +54,20 @@ def main_menu():
    
     #User Menu
     user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (70, 50)), text='User', manager=manager)
-    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 205)),starting_layer_height=0, manager=manager,visible=0)
-    signin_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Anmelden", manager=manager,visible=0,starting_height=3)
-    signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Registrieren", manager=manager,visible=0,starting_height=3)
-    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)), text="Quit", manager=manager,visible=0,starting_height=3)
+    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 205)),starting_layer_height=0, manager=manager, visible=0)
+    signin_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Anmelden", manager=manager, visible=0, starting_height=3)
+    signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Registrieren", manager=manager, visible=0, starting_height=3)
+    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)), text="Quit", manager=manager, visible=0, starting_height=3)
 
     ##Anmelden & Registrieren ----
     loginWindow = 0  # 0 = both closed | 1 = login opened | 2 = registration opened
-    user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
-    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager,visible=0)
-    id_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 150), (190, 30)), text="Benutzername:", manager=manager,visible=0)
-    id_txtentry = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((5, 180), (190, 30)), manager=manager,visible=0)
-    pw_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 210), (190, 30)), text="Passwort:", manager=manager,visible=0)
-    pw_txtentry = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((5, 235), (190, 30)), manager=manager,visible=0)
-    ok_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 270), (95, 30)), text="Ok", manager=manager,visible=0)
+    user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager, visible=0)
+    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager, visible=0)
+    id_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 150), (190, 30)), text="Benutzername:", manager=manager, visible=0)
+    id_txtentry = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((5, 180), (190, 30)), manager=manager, visible=0)
+    pw_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 210), (190, 30)), text="Passwort:", manager=manager, visible=0)
+    pw_txtentry = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((5, 235), (190, 30)), manager=manager, visible=0)
+    ok_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 270), (95, 30)), text="Ok", manager=manager, visible=0)
     ##-------------
     
     
@@ -235,22 +249,15 @@ def main_menu():
                         loginWindow = 0
 
                 if event.ui_element == ok_button:
-                    # open_popup("Das war erfolgreich!", "title", 150, 20)
-                    # open_popup("Du Opfer!", "title", 150, 20)
                     username = id_txtentry.get_text()
                     password = pw_txtentry.get_text()
                     if len(username) != 0 and len(password) != 0:
                         if loginWindow == 1: # login is active
-                            db_manager.login(username, password)
+                            result = login(username, password)
+                            if result:
+                                username_lbl.set_text(result)
                         elif loginWindow == 2: # registration is active
-                            successful = db_manager.register(username, password)                   
-                            if successful:
-                                open_popup("Das war erfolgreich!", "title", 150, 50)
-                            else:
-                                open_popup("Du Opfer!", "title", 150, 50)
-
-                
-            
+                            register(username, password)
                         
                 #Game1
                 if event.ui_element == game1_button:
