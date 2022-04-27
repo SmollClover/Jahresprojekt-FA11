@@ -17,15 +17,19 @@ manager = pygame_gui.UIManager(res, 'Themes/base.json')
 clock = pygame.time.Clock()
 #----------[/Meta]----------------------------------------
 #----------[Funktionen]---------------------------------
-
+#Rules Windows
+def open_rules(text,title):
+    rules_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-200,10),(400,400)),html_message=text,manager=manager,window_title=title)
     
 #-----------[/Funktionen]----------------------------------
+#-----------[Langtexte]---------------------------------
+ipsum= "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
 
+
+#-----------[/Langtexte]--------------------------------
 #--------------------[Main Menu-Screen]-----------------------------------
 
 def main_menu():
-   
-    
     
     #Hintergrundfarbe
     background.fill(pygame.Color("#3c3c3c"))
@@ -33,20 +37,13 @@ def main_menu():
     #--------------------Elemente------------------------
     #Label
     menu_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]/2-150, 20), (300, 50)), text="Hauptbildschirm", manager=manager)
+   
     #User Menu
-    
-    user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (50, 50)),
-                                             text='User', manager=manager)
+    user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (70, 50)), text='User', manager=manager)
     dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 205)),starting_layer_height=0, manager=manager,visible=0)
-    
-    signin_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)),
-                                               text="Anmelden", manager=manager,visible=0,starting_height=3)
-    
-    signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)),
-                                               text="Registrieren", manager=manager,visible=0,starting_height=3)
-    
-    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)),
-                                               text="Quit", manager=manager,visible=0,starting_height=3)
+    signin_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Anmelden", manager=manager,visible=0,starting_height=3)
+    signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Registrieren", manager=manager,visible=0,starting_height=3)
+    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)), text="Quit", manager=manager,visible=0,starting_height=3)
 
     ##Anmelden----
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
@@ -59,7 +56,7 @@ def main_menu():
     ##-------------
     
     
-    #Main Buttons 
+    #Main Buttons Dimension
     button_height = 75
     big_button_width = 300
     small_button_width = 75
@@ -268,6 +265,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game1_rules_button:
+                    open_rules(ipsum,"Game1 Regeln")
                     print('Game1_rules_clicked')
                     
                 if event.ui_element == game1_score_button:
@@ -308,6 +306,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game2_rules_button:
+                    open_rules(ipsum,"Game2 Regeln")
                     print('Game2_rules_clicked')
                     
                 if event.ui_element == game2_score_button:
@@ -348,6 +347,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game3_rules_button:
+                    open_rules(ipsum,"Game3 Regeln")
                     print('Game3_rules_clicked')
                     
                 if event.ui_element == game3_score_button:
