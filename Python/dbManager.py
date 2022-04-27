@@ -1,5 +1,7 @@
 import sqlite3
 import hashlib
+from telnetlib import STATUS
+from user import User
 
 class DbManager: 
 
@@ -84,5 +86,10 @@ class DbManager:
         )
         usernameResult = cursor.fetchall() 
         print(usernameResult)
-        # TODO return new User
+        
+        user = User(usernameResult[0][0], usernameResult[0][1])
+        user.print()
+
+    
+
     

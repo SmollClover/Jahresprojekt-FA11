@@ -235,8 +235,8 @@ def main_menu():
                         loginWindow = 0
 
                 if event.ui_element == ok_button:
-                    open_popup("Das war erfolgreich!", "title", 150, 20)
-                    open_popup("Du Opfer!", "title", 150, 20)
+                    # open_popup("Das war erfolgreich!", "title", 150, 20)
+                    # open_popup("Du Opfer!", "title", 150, 20)
                     username = id_txtentry.get_text()
                     password = pw_txtentry.get_text()
                     if len(username) != 0 and len(password) != 0:
