@@ -139,7 +139,7 @@ class TicTacToe:
         else:
             return 0
 
-    def emptyBlocks(self, state):
+    def validMoves(self, state):
         blocks = []
 
         for col in range(len(state)):

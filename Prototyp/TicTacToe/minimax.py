@@ -16,9 +16,9 @@ def minimax(game, state, depth, player):
         score = game.judgeMove(state)
         return [0, 0, score]
 
-    for block in game.emptyBlocks(state):
-        col = block[0]
-        row = block[1]
+    for move in game.validMoves(state):
+        col = move[0]
+        row = move[1]
         state[col][row] = player
         score = minimax(game, state, depth-1, -player)
         state[col][row] = PLAYER["undefined"]

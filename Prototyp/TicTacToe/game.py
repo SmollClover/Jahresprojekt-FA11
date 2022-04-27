@@ -33,6 +33,9 @@ class Game:
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self.handleClickEvent(event.pos[0], event.pos[1]):
+                        if self.currentGame.getCurrPlayer() == -1:
+                            temp = minimax(self.currentGame, self.currentGame.getBoardState(), 2, currentGame.getCurrPlayer())
+                            self.currentGame.clickBlock(temp[0], temp[1])
                         self.drawCurrentState(currentGame.getBoardState())
                         winnerState = currentGame.getGameState()
                         if winnerState == self.gameStateEnum["DRAW"]:
@@ -41,9 +44,6 @@ class Game:
                             print('Der/Die SpielerIn hat gewonnen!')
                         elif winnerState == self.gameStateEnum["KI"]:
                             print('Die KI hat gewonnen!')
-                        # temp = minimax(self.currentGame, self.currentGame.getBoardState(), 2, currentGame.getCurrPlayer())
-                        # if self.currentGame.getCurrPlayer() == -1:
-                        #     self.currentGame.clickBlock(temp[0], temp[1])
             pygame.display.flip()
 
         print("Exit program")
