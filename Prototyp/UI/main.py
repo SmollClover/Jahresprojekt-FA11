@@ -18,8 +18,8 @@ clock = pygame.time.Clock()
 #----------[/Meta]----------------------------------------
 #----------[Funktionen]---------------------------------
 #Rules Windows
-def open_rules(text,title):
-    rules_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-200,10),(400,400)),html_message=text,manager=manager,window_title=title)
+def open_popup(text,title,width,height):
+    rules_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-200,10),(width,height)),html_message=text,manager=manager,window_title=title)
     
 #-----------[/Funktionen]----------------------------------
 #-----------[Langtexte]---------------------------------
@@ -30,7 +30,7 @@ ipsum= "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
 #--------------------[Main Menu-Screen]-----------------------------------
 
 def main_menu():
-    
+
     #Hintergrundfarbe
     background.fill(pygame.Color("#3c3c3c"))
     
@@ -45,7 +45,8 @@ def main_menu():
     signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Registrieren", manager=manager,visible=0,starting_height=3)
     quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)), text="Quit", manager=manager,visible=0,starting_height=3)
 
-    ##Anmelden----
+    ##Anmelden & Registrieren ----
+    loginWindow = 0  # 0 = both closed | 1 = login opened | 2 = registration opened
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
     username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager,visible=0)
     id_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 150), (190, 30)), text="Benutzername:", manager=manager,visible=0)
@@ -196,6 +197,7 @@ def main_menu():
                         dd_menu.set_dimensions((200, 355))
                         signup_button.set_position((5,300))
                         quit_button.set_position((5,350))
+                        loginWindow = 1
                     else:
                         id_lbl.hide()
                         pw_lbl.hide()
@@ -205,7 +207,7 @@ def main_menu():
                         dd_menu.set_dimensions((200, 205))
                         signup_button.set_position((5,150))
                         quit_button.set_position((5,200))
-                
+                        loginWindow = 0
                 if event.ui_element == signup_button:
                     if ok_button.visible == 0:
                         id_lbl.show()
@@ -220,6 +222,7 @@ def main_menu():
                         ok_button.set_position((5,320))
                         dd_menu.set_dimensions((200, 355))
                         quit_button.set_position((5,350))
+                        loginWindow = 2
                     else:
                         id_lbl.hide()
                         pw_lbl.hide()
@@ -229,6 +232,25 @@ def main_menu():
                         dd_menu.set_dimensions((200, 205))
                         signup_button.set_position((5,150))
                         quit_button.set_position((5,200))
+                        loginWindow = 0
+
+                if event.ui_element == ok_button:
+                    open_popup("Das war erfolgreich!", "title", 150, 20)
+                    open_popup("Du Opfer!", "title", 150, 20)
+                    username = id_txtentry.get_text()
+                    password = pw_txtentry.get_text()
+                    if len(username) != 0 and len(password) != 0:
+                        if loginWindow == 1: # login is active
+                            db_manager.login(username, password)
+                        elif loginWindow == 2: # registration is active
+                            successful = db_manager.register(username, password)                   
+                            if successful:
+                                open_popup("Das war erfolgreich!", "title", 150, 50)
+                            else:
+                                open_popup("Du Opfer!", "title", 150, 50)
+
+                
+            
                         
                 #Game1
                 if event.ui_element == game1_button:
@@ -265,7 +287,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game1_rules_button:
-                    open_rules(ipsum,"Game1 Regeln")
+                    open_popup(ipsum, "Game1 Regeln", 400, 400)
                     print('Game1_rules_clicked')
                     
                 if event.ui_element == game1_score_button:
@@ -306,7 +328,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game2_rules_button:
-                    open_rules(ipsum,"Game2 Regeln")
+                    open_popup(ipsum, "Game2 Regeln", 400, 400)
                     print('Game2_rules_clicked')
                     
                 if event.ui_element == game2_score_button:
@@ -347,7 +369,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game3_rules_button:
-                    open_rules(ipsum,"Game3 Regeln")
+                    open_popup(ipsum, "Game3 Regeln", 400, 400)
                     print('Game3_rules_clicked')
                     
                 if event.ui_element == game3_score_button:

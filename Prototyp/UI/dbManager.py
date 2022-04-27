@@ -1,17 +1,14 @@
 import sqlite3
-
-
+import hashlib
 
 class DbManager: 
 
     def __init__(self):
-        print("Hallo, ich bin ein DB-Manager.")
-
-        self.connection = sqlite3.connect("Datenbank/minimax.db")
         self.createTables()
 
     def createTables(self):
-        cursor = self.connection.cursor()
+        connection = sqlite3.connect("Datenbank/minimax.db")
+        cursor = connection.cursor()
         createTableUser = """
             CREATE TABLE IF NOT EXISTS user (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,22 +40,49 @@ class DbManager:
         cursor.execute(createTableGame)
         cursor.execute(createTableScore)
 
-        self.connection.commit()
-        self.connection.close()
+        connection.commit()
+        connection.close()
 
 
+# Benutzer registrieren
+    def register(self, username, password):
+        connection = sqlite3.connect("Datenbank/minimax.db")
+        hashedPass = hashlib.sha3_512(password.encode())
+        cursor = connection.cursor()
 
+        cursor.execute("""
+            SELECT name FROM user WHERE name = ?;
+            """,
+            (username,)
+        )
+        usernameResult = cursor.fetchall() 
+        if len(usernameResult) == 0:
+            cursor.execute("""
+                INSERT INTO user (name, password)
+                VALUES (?, ?);
+                """,
+                (username, hashedPass.hexdigest())
+            )
+            connection.commit()
+            result = True
+        else:
+            result = False
 
-
-
-        # Benutzer registrieren
-
-# INSERT INTO user (name, password)
-# VALUES ({SQL-INJECTION-PROOF-NAME}, {HASHED-PW});
-
+        connection.close()
+        return result
 # Benutzer einloggen
-
-# SELECT id, name
-# FROM user
-# WHERE name={SQL-INJECTION-PROOF-NAME} AND password={HASHED-PW};
-
+    def login(self, username, password):
+        connection = sqlite3.connect("Datenbank/minimax.db")
+        hashedPass = hashlib.sha3_512(password.encode())
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT id, name
+            FROM user
+            WHERE name = ? AND password = ?;
+            """,
+            (username, hashedPass.hexdigest())
+        )
+        usernameResult = cursor.fetchall() 
+        print(usernameResult)
+        # TODO return new User
+    
