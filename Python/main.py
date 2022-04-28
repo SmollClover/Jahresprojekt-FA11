@@ -44,7 +44,7 @@ def register(username, password):
     
 #-----------[/Funktionen]----------------------------------
 #-----------[Langtexte]---------------------------------
-game1_rule = """Bauernschach ist eine simple Variante des Schachs, die nur mit Bauern gespielt wird. In der Ausgansstellung stehen dabei die weißen bzw. schwarze Spielfiguren (Bauern) auf der jeweiligen Grundlinie. Die Spieler machen abwechselnd einen Zug, wobei Weiß beginnt. Es gibt zwei erlaubte Sorten von Zügen: Ziehen oder Schlagen. Ziehen kann ein Bauer, indem er ein Feld in Richtung der gegnerischen Grundlinie (das sind die Felder, auf denen anfangs die gegnerischen Bauern stehen) geht, aber nur sofern dieses Feld frei ist (also nicht von einem eigenen oder gegnerischen Bauern besetzt ist). Schlagen kann ein Bauer in Richtung der gegnerischen Grundlinie durch diagonales Ziehen in Richtung der gegnerischen Grundlinie, aber nur auf ein Feld, auf dem ein gegnerischer Bauer steht. Ziel des Spieles ist es, einen Bauern auf die generische Grundlinie zu platzieren; wenn das gelingt, ist das Spiel sofort zu Ende und die Farbe, die das erreicht hat, hat gewonnen. Wenn ein Spieler nicht mehr ziehen kann, oder überhaupt keine Figuren mehr hat, ist das Spiel für ihn als verloren. Ein unentschieden ist nicht möglich."""
+game1_rule = "Bauernschach ist eine simple Variante des Schachs, die nur mit Bauern gespielt wird. In der Ausgansstellung stehen dabei die weißen bzw. schwarze Spielfiguren (Bauern) auf der jeweiligen Grundlinie. Die Spieler machen abwechselnd einen Zug, wobei Weiß beginnt. Es gibt zwei erlaubte Sorten von Zügen: Ziehen oder Schlagen. Ziehen kann ein Bauer, indem er ein Feld in Richtung der gegnerischen Grundlinie (das sind die Felder, auf denen anfangs die gegnerischen Bauern stehen) geht, aber nur sofern dieses Feld frei ist (also nicht von einem eigenen oder gegnerischen Bauern besetzt ist). Schlagen kann ein Bauer in Richtung der gegnerischen Grundlinie durch diagonales Ziehen in Richtung der gegnerischen Grundlinie, aber nur auf ein Feld, auf dem ein gegnerischer Bauer steht. Ziel des Spieles ist es, einen Bauern auf die generische Grundlinie zu platzieren; wenn das gelingt, ist das Spiel sofort zu Ende und die Farbe, die das erreicht hat, hat gewonnen. Wenn ein Spieler nicht mehr ziehen kann, oder überhaupt keine Figuren mehr hat, ist das Spiel für ihn als verloren. Ein unentschieden ist nicht möglich."
 game2_rule = "Bei der Dame werden zu Beginn für beide Spieler die Spielsteine auf den schwarzen Feldern der ersten zwei Reihen des Spielfeldes verteilt. Gespielt wird nur auf den dunklen Feldern. Die Steine ziehen jeweils ein Feld vorwärts in diagonaler Richtung. Es herrscht generell Schlagzwang, gegnerische Steine müssen entsprechend übersprungen und dadurch geschlagen werden, sofern das direkt angrenzende dahinter liegende Feld frei ist. Der schlagende Stein wird auf dieses freie Feld gezogen und wenn das Zielfeld eines Sprungs auf ein Feld führt, von dem aus ein weiterer Stein übersprungen werden kann, wird der Sprung fortgesetzt. Alle übersprungenen Steine werden nach dem Zug vom Brett genommen. Es darf dabei nicht über eigene Spielsteine gesprungen werden. Das Spiel ist gewonnen, wenn ein Spieler einen Spielstein auf der gegnerischen Grundlinie platzieren kann. Wenn ein Spieler nicht mehr ziehen kann, oder keine Spielsteine mehr hat, ist das Spiel für ihn verloren. Ein unentschieden ist nicht möglich."
 game3_rule = "Beide Spieler setzen abwechselnd ihre Spielsteine auf ein freies Feld. Der Spieler, der als Erster vier seiner Spielsteine in eine Zeile, Spalte oder Diagonale setzen kann, gewinnt. Das Spiel ist unentschieden, wenn alle Felder belegt sind, ohne dass ein Spieler die erforderlichen Spielsteine in einer Reihe, Spalte oder Diagonalen setzen konnte."
 #-----------[/Langtexte]--------------------------------
@@ -308,7 +308,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game1_rules_button:
-                    open_popup(game1_rule, "Game1 Regeln", 400, 400)
+                    open_popup(game1_rule, gamesList[0][1]+" Regeln", 400, 400)
                     print('Game1_rules_clicked')
                     
                 if event.ui_element == game1_score_button:
@@ -361,7 +361,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game2_rules_button:
-                    open_popup(game2_rule , "Game2 Regeln", 400, 400)
+                    open_popup(game2_rule , gamesList[1][1]+" Regeln", 400, 400)
                     print('Game2_rules_clicked')
                     
                 if event.ui_element == game2_score_button:
@@ -414,7 +414,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game3_rules_button:
-                    open_popup(game3_rule , "Game3 Regeln", 400, 400)
+                    open_popup(game3_rule , gamesList[2][1]+" Regeln", 400, 400)
                     print('Game3_rules_clicked')
                     
                 if event.ui_element == game3_score_button:
@@ -478,15 +478,24 @@ def gameframe(gamename, gameid, difficulty):
     #Buttons
     rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0,res[1]-40), (40, 40)),
                                              text='?', manager=manager,starting_height=-2)
-
-    if gameid == 3:
-        game = Game(background, 6, 6, TicTacToe(4, 6, 6))
     
     #---------------------------------------------------
     is_running = True
     back_to_main_menu = False
     restart = False
     is_game_over = False
+
+    if gameid == 1:
+        print("starte bauernschach")
+        back_to_main_menu = True
+        # game = Game(background, 6, 6, Bauernschach(4, 6, 6), difficulty)
+    elif gameid == 2:
+        print("starte dame")
+        back_to_main_menu = True
+        # game = Game(background, 6, 6, Dame(4, 6, 6), difficulty)
+    elif gameid == 3:
+        game = Game(background, 6, 6, TicTacToe(4, 6, 6), difficulty)
+
     while is_running and not back_to_main_menu and not restart:
        
         #Fenster Titel

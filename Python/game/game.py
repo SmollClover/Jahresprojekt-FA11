@@ -12,7 +12,7 @@ class Game:
         "DRAW": 3,
     }
 
-    def __init__(self, screen, gameWidth, gameHeight, currentGame):
+    def __init__(self, screen, gameWidth, gameHeight, currentGame, difficulty):
         self.SCREEN = screen
         self.gameWidth = gameWidth
         self.gameHeight = gameHeight
@@ -20,8 +20,8 @@ class Game:
         self.BOARD = [[0 for x in range(self.gameWidth)] for y in range(self.gameHeight)]
         self.initBoard()
         self.currentGame = currentGame
+        self.difficulty = difficulty
         self.winnerState = self.gameStateEnum["PLAYING"]
-        
     def eventHandler(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.handleClickEvent(event.pos[0], event.pos[1])
@@ -31,7 +31,7 @@ class Game:
         if self.currentGame.getCurrPlayer() == 1 and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.handleClickEvent(event.pos[0], event.pos[1])  
         elif self.currentGame.getCurrPlayer() == -1:
-            aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), 4, self.currentGame.getCurrPlayer())
+            aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+2, self.currentGame.getCurrPlayer())
             self.currentGame.clickBlock(aiMove[0], aiMove[1])
             
         self.drawCurrentState(self.currentGame.getBoardState())
@@ -39,10 +39,6 @@ class Game:
         if self.winnerState != self.gameStateEnum["PLAYING"]:
             return (1,self.winnerState)
         return (0,self.currentGame.getCurrPlayer())
-    def postTick(self):
-        if self.currentGame.getCurrPlayer() == -1:
-            aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), 4, self.currentGame.getCurrPlayer())
-            self.currentGame.clickBlock(aiMove[0], aiMove[1])
 
     def handleClickEvent(self, eventPosX, eventPosY):
         for col in range(len(self.BOARD)):
