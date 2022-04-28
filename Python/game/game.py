@@ -27,8 +27,8 @@ class Game:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.handleClickEvent(event.pos[0], event.pos[1]):
                 if self.currentGame.getCurrPlayer() == -1:
-                    temp = minimax(self.currentGame, self.currentGame.getBoardState(), 2, self.currentGame.getCurrPlayer())
-                    self.currentGame.clickBlock(temp[0], temp[1])
+                    aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), 4, currentGame.getCurrPlayer())
+                    self.currentGame.clickBlock(aiMove[0], aiMove[1])
                 self.drawCurrentState(self.currentGame.getBoardState())
                 winnerState = self.currentGame.getGameState()
                 if winnerState == self.__gameStateEnum["DRAW"]:

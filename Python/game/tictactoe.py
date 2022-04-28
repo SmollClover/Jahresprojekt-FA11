@@ -1,4 +1,3 @@
-from turtle import st
 from game.minimax import minimax
 
 class TicTacToe: 
@@ -20,7 +19,7 @@ class TicTacToe:
         self.__width = width
         self.__height = height
         self.__gameState = self.__gameStateEnum["PLAYING"]
-        self.__boardState = [[0 for x in range(width)] for y in range(height)]
+        self.__boardState = [[0 for x in range(self.__width)] for y in range(self.__height)]
 
     def getBoardState(self):
         return self.__boardState
@@ -129,15 +128,62 @@ class TicTacToe:
         return not (self.__boardCondition(state) == self.__gameStateEnum["PLAYING"])
         
     def judgeMove(self, state):
+        score = 0
+
         judgedState = self.__boardCondition(state)
         if judgedState == self.__gameStateEnum["PLAYER"]:
-            return -1
-        elif judgedState == self.__gameStateEnum["KI"]:
-            return 1
-        elif judgedState == self.__gameStateEnum["DRAW"]:
-            return -1
-        else:
-            return 0
+            score += -100
+        if judgedState == self.__gameStateEnum["KI"]:
+            score += 100
+        if judgedState == self.__gameStateEnum["DRAW"]:
+            score += -50
+
+        colLen = len(state)
+        rowLen = len(state[0])
+        for col in range(colLen):
+            for row in range(rowLen):
+                if row - 1 > 0:
+                    if state[col][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+                if row + 1 < rowLen:
+                    if state[col][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+                if col - 1 > 0:
+                    if state[col - 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col - 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+                if col + 1 < colLen:
+                    if state[col + 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col + 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+                if row - 1 > 0 and col - 1 > 0:
+                    if state[col - 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col - 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+                if row + 1 > rowLen and col + 1 > colLen:
+                    if state[col + 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col + 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+                if row - 1 > 0 and col + 1 > colLen:
+                    if state[col + 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col + 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+                if row + 1 > rowLen and col - 1 > 0:
+                    if state[col - 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
+                        score += 1
+                    if state[col - 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
+                        score += 1
+
+        return score
 
     def validMoves(self, state):
         blocks = []
