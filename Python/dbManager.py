@@ -43,11 +43,39 @@ class DbManager:
                 PRIMARY KEY(userid, gameid, difficulty)
             );       
             """
+        
+        createTableBauernLeader = """
+            CREATE TABLE IF NOT EXISTS bauernLeader (
+                userid INTEGER,
+                username VARCHAR(30)
+                score INTEGER
+            );
+        """
+
+        createTableDameLeader = """
+            CREATE TABLE IF NOT EXISTS dameLeader (
+                userid INTEGER,
+                username VARCHAR(30)
+                score INTEGER
+            );
+        """
+
+        createTableTicLeader = """
+            CREATE TABLE IF NOT EXISTS ticLeader (
+                userid INTEGER,
+                username VARCHAR(30)
+                score INTEGER
+            );
+        """
 
         cursor.execute(createTableUser)
         cursor.execute(createTableGame)
         cursor.execute(fillTableGame)
         cursor.execute(createTableScore)
+        cursor.execute(createTableBauernLeader)
+        cursor.execute(createTableDameLeader)
+        cursor.execute(createTableTicLeader)
+
 
         connection.commit()
         connection.close()
@@ -107,6 +135,9 @@ class DbManager:
         cursor.execute("""SELECT * FROM game;""")
         gameResult = cursor.fetchall()
         return gameResult
+
+# Bestenlisten
+
 
 
     
