@@ -453,7 +453,7 @@ def main_menu():
 #-----------------[/Main Menu-Screen]-----------------------------------------------------
 #-----------------[GameFrame Screen]----------------------------------------------------
 
-def gameframe(game, gameid, difficulty):
+def gameframe(gamename, gameid, difficulty):
     difficulty = str(difficulty)
     time = ""
     manager.clear_and_reset()
@@ -463,15 +463,14 @@ def gameframe(game, gameid, difficulty):
     #--------------------Elemente---------------------
     #User Menu
     user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (70, 50)), text='User', manager=manager)
-    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 205)),starting_layer_height=0, manager=manager,visible=0)
+    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 155)),starting_layer_height=0, manager=manager,visible=0)
     restart_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Neustart", manager=manager,visible=0,starting_height=3)
     menu_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Hauptmenü", manager=manager,visible=0,starting_height=3)
-    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)), text="!Keine Funktion!", manager=manager,visible=0,starting_height=3)
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
     username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager,visible=0)
 
     #Label
-    game_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),0), ((res[0]-res[1])/2,50)), text=game, manager=manager)
+    game_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),0), ((res[0]-res[1])/2,50)), text=gamename, manager=manager)
     difficulty_head_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),50), ((res[0]-res[1])/2,50)), text="Schwierigkeit:", manager=manager)
     difficulty_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),75), ((res[0]-res[1])/2,50)), text=difficulty, manager=manager)
     message_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text="", manager=manager)
@@ -488,8 +487,9 @@ def gameframe(game, gameid, difficulty):
     #---------------------------------------------------
     is_running = True
     back_to_main_menu = False
+    restart = False
     is_game_over = False
-    while is_running and not back_to_main_menu:
+    while is_running and not back_to_main_menu and not restart:
        
         #Fenster Titel
         pygame.display.set_caption('Spieloberfläche')
@@ -505,41 +505,31 @@ def gameframe(game, gameid, difficulty):
                 
             #Buttons Funktionen
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-
-                if event.ui_element == quit_button:
-                    print('Quit!')
-                    #is_running = False
-                    #pygame.quit()
-
                 if event.ui_element == user_button:
                     if dd_menu.visible == 0:
                         dd_menu.visible = 1
-                        quit_button.show()
                         restart_button.show()
                         menu_button.show()
                         user_lbl.show()
                         username_lbl.show()
                     else:
                         dd_menu.visible = 0
-                        quit_button.hide()
                         restart_button.hide()
                         menu_button.hide()
                         user_lbl.hide()
                         username_lbl.hide()
-                
-                if event.ui_element == menu_button:
-                    back_to_main_menu = True
-                    
-                if event.ui_element == rules_button:
+                elif event.ui_element == menu_button:
+                    back_to_main_menu = True    
+                elif event.ui_element == rules_button:
                     print('rules_clicked')
                     if gameid == 1:
                         open_popup(game1_rule , game +" Regeln", 400, 400)
-
                     elif gameid == 2:
                         open_popup(game2_rule , game +" Regeln", 400, 400)
-
                     elif gameid == 3:
                         open_popup(game3_rule , game +" Regeln", 400, 400)
+                elif event.ui_element == restart_button:
+                    restart = True
 
             if not is_game_over:
                 game_result = game.tick(event)
@@ -563,6 +553,8 @@ def gameframe(game, gameid, difficulty):
             pygame.display.update()
     if back_to_main_menu:
         main_menu()
+    elif restart:
+        gameframe(gamename, gameid, difficulty)
     else:
         pygame.quit()
 #-----------------[/GameFrame Screen]---------------------------------------------------
