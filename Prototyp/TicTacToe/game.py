@@ -29,13 +29,14 @@ class Game:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT: # or self.isGameOver():
+                if event.type == pygame.QUIT: # or self.currentGame.isGameOver(self.currentGame.getBoardState()):
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self.handleClickEvent(event.pos[0], event.pos[1]):
                         if self.currentGame.getCurrPlayer() == -1:
-                            temp = minimax(self.currentGame, self.currentGame.getBoardState(), 2, currentGame.getCurrPlayer())
-                            self.currentGame.clickBlock(temp[0], temp[1])
+                            aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), 4, currentGame.getCurrPlayer())
+                            self.currentGame.clickBlock(aiMove[0], aiMove[1])
+                            print (aiMove)
                         self.drawCurrentState(currentGame.getBoardState())
                         winnerState = currentGame.getGameState()
                         if winnerState == self.gameStateEnum["DRAW"]:
@@ -78,19 +79,6 @@ class Game:
 
         self.drawCurrentState(self.BOARD)
         
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__=="__main__":
     gameWidth = 6
     gameHeight = 6
