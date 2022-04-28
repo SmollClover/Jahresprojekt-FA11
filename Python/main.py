@@ -85,7 +85,7 @@ def main_menu():
    
    #Game1 Buttons
     game1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, button_vert_startposition), (big_button_width, button_height)),
-                                             text='Game1', manager=manager,starting_height=-2)
+                                             text=gamesList[0][1], manager=manager,starting_height=-2)
     game1_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, button_vert_startposition), (small_button_width, button_height)),
                                              text='?', manager=manager,starting_height=-2)
     game1_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, button_vert_startposition), (small_button_width, button_height)),
@@ -101,7 +101,7 @@ def main_menu():
 
     #Game2 Buttons
     game2_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (big_button_width, button_height)),
-                                             text='Game2', manager=manager,starting_height=-2)
+                                             text=gamesList[1][1], manager=manager,starting_height=-2)
     game2_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (small_button_width, button_height)),
                                              text='?', manager=manager,starting_height=-2)
     game2_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (small_button_width, button_height)),
@@ -118,7 +118,7 @@ def main_menu():
     #Game3 Buttons
     
     game3_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (big_button_width, button_height)),
-                                             text='Game3', manager=manager,starting_height=-2)  
+                                             text=gamesList[2][1], manager=manager,starting_height=-2)  
     game3_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width, button_height)),
                                              text='?', manager=manager,starting_height=-2) 
     game3_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width, button_height)),
@@ -398,7 +398,7 @@ def main_menu():
 
 #--------------------------------Main-------------------------------------
 db_manager = DbManager()
-
+gamesList = db_manager.getGames()
 main_menu()
 
 

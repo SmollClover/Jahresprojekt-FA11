@@ -23,9 +23,15 @@ class DbManager:
         createTableGame = """
             CREATE TABLE IF NOT EXISTS game (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name VARCHAR(30) NOT NULL
+                name VARCHAR(30) NOT NULL UNIQUE
             );
             """
+
+        fillTableGame = """
+            INSERT OR IGNORE INTO game (name) VALUES
+            ("Bauernschach"), ("Dame"), ("TicTacToe");
+
+        """
 
         createTableScore = """
             CREATE TABLE IF NOT EXISTS score (
@@ -40,12 +46,11 @@ class DbManager:
 
         cursor.execute(createTableUser)
         cursor.execute(createTableGame)
+        cursor.execute(fillTableGame)
         cursor.execute(createTableScore)
 
         connection.commit()
         connection.close()
-
-
 # Benutzer registrieren
     def register(self, username, password):
         connection = self.__openDb()
@@ -94,4 +99,14 @@ class DbManager:
     
     def __openDb(self):
         return sqlite3.connect("Database/minimax.db")
+
+# Alle Spiele bekommen
+    def getGames(self):
+        connection = self.__openDb()
+        cursor = connection.cursor()
+        cursor.execute("""SELECT * FROM game;""")
+        gameResult = cursor.fetchall()
+        return gameResult
+
+
     
