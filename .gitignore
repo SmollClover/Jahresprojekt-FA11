@@ -1,3 +1,4 @@
+
 # Obsidian
 .obsidian/
 
@@ -136,3 +137,6 @@ dmypy.json
 
 # Database
 Database/minimax.db
+Python/Database/minimax.db
+minimax.db
+*.db

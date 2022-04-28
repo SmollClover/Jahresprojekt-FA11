@@ -28,6 +28,9 @@ class TicTacToe:
     def getCurrPlayer(self):
         return self.__currPlayer
 
+    def getCurrPiece(self):
+        return [False]
+
     def clickBlock(self, column, row):
         if self.__boardState[column][row] == self.__boardStateEnum["EMPTY"]:
             self.__boardState[column][row] = self.__currPlayer

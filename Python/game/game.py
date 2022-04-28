@@ -1,10 +1,10 @@
 import pygame
-from game.minimax import minimax
+from game.minimax import MiniMax
 
 class Game:
     __blockSize = 50
     __blockPadding = 5
-    __chipColor = {0: (255,255,255), 1: (255, 0, 0), -1: (255, 0, 255)}
+    __chipColor = {0: (255,255,255), 1: (255, 0, 0), -1: (255, 0, 255), 2: (60, 235, 184)}
     gameStateEnum = {
         "PLAYING": 0,
         "PLAYER": 1,
@@ -29,12 +29,15 @@ class Game:
 
     def tick(self, event):
         if self.currentGame.getCurrPlayer() == 1 and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            self.handleClickEvent(event.pos[0], event.pos[1])  
+            self.handleClickEvent(event.pos[0], event.pos[1])
         elif self.currentGame.getCurrPlayer() == -1:
-            aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+2, self.currentGame.getCurrPlayer())
+            aiMove = MiniMax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+1, self.currentGame.getCurrPlayer()).calc()
+            if len(aiMove[3]) > 0:
+                self.currentGame.clickBlock(aiMove[3][1], aiMove[3][2])
             self.currentGame.clickBlock(aiMove[0], aiMove[1])
             
         self.drawCurrentState(self.currentGame.getBoardState())
+        self.drawCurrentPiece(self.currentGame.getCurrPiece())
         self.winnerState = self.currentGame.getGameState()
         if self.winnerState != self.gameStateEnum["PLAYING"]:
             return (1,self.winnerState)
@@ -50,6 +53,12 @@ class Game:
         for col in range(len(state)):
             for row in range(len(state[0])):
                 self.BOARD[col][row] = self.__drawBlock(self.__chipColor[state[col][row]], col, row)
+
+    def drawCurrentPiece(self, piece):
+        if piece[0]:
+            col = piece[1]
+            row = piece[2]
+            self.BOARD[col][row] = self.__drawBlock(self.__chipColor[2], col, row)
 
     def __drawBlock(self, color, posY, posX):
         fieldWidth = (self.__blockSize + self.__blockPadding) * self.gameWidth - self.__blockPadding
