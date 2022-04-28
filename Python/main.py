@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import pygame
 import pygame_gui
 from game.tictactoe import TicTacToe
