@@ -58,8 +58,6 @@ game1_rule = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam 
 game2_rule = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
 game3_rule = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
 
-#pers_highscore_data = "<font size=5><b>"+difficulty+"</b></font><br>Siege: <br><br>Niederlagen:  <br><br>Unentschieden: "
-#publ_highscore_data = "<font size=5><b>Leicht</b></font><br>Siege: <br><br>Niederlagen:  <br><br>Unentschieden: "
 #-----------[/Langtexte]--------------------------------
 #--------------------[Main Menu-Screen]-----------------------------------
 
