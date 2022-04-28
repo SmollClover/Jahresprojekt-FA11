@@ -432,6 +432,7 @@ def main_menu():
             manager.draw_ui(screen)
             pygame.display.update()
     pygame.quit()
+    exit()
 #-----------------[/Main Menu-Screen]-----------------------------------------------------
 #-----------------[GameFrame Screen]----------------------------------------------------
 
