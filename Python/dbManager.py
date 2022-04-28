@@ -1,6 +1,5 @@
 import sqlite3
 import hashlib
-from telnetlib import STATUS
 from user import User
 
 class DbManager: 
