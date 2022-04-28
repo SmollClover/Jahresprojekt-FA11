@@ -118,7 +118,7 @@ class TicTacToe:
                             return self.__gameStateEnum["KI"]
             return self.__gameStateEnum["PLAYING"]
 
-        states = [isDraw(), isHorizontalWin(), isVerticalWin(), isDiagonalLeftWin(), isDiagonalRightWin()]
+        states = [isHorizontalWin(), isVerticalWin(), isDiagonalLeftWin(), isDiagonalRightWin(), isDraw()]
         for state in states:
             if state != self.__gameStateEnum["PLAYING"]:
                 return state
@@ -132,11 +132,11 @@ class TicTacToe:
 
         judgedState = self.__boardCondition(state)
         if judgedState == self.__gameStateEnum["PLAYER"]:
-            score += -100
+            return -100
         if judgedState == self.__gameStateEnum["KI"]:
-            score += 100
+            return 100
         if judgedState == self.__gameStateEnum["DRAW"]:
-            score += -50
+            return -50
 
         colLen = len(state)
         rowLen = len(state[0])

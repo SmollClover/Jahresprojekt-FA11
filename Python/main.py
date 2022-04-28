@@ -542,11 +542,13 @@ def gameframe(game, gameid, difficulty):
                     
             game.eventHandler(event)
 
+            game.tick()
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))
             manager.draw_ui(screen)
             pygame.display.update()
+            game.postTick()
     if back_to_main_menu:
         main_menu()
     else:
