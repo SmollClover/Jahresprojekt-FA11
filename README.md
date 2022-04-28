@@ -2,15 +2,14 @@
 
 > GitHub Repository für das Jahresprojekt der Klasse FA11 der Gruppe Benji, Noah, Laura und Lars.
 
-<br>
-Zum Starten müssen einige Sachen installiert werden:
+## Benutzung
+
+Folgende Sachen müssen über PIP vorinstalliert sein:
 
 ```bash
-pip install pygame
-pip install pygame_gui
+pip install pygame pygame_gui
 ```
 
-<br>
 ## Inhaltsverzeichnis
 
 ### Wichtige Dokumente
