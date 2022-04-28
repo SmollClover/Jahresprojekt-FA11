@@ -49,9 +49,9 @@ class DbManager:
         cursor.execute(fillTableGame)
         cursor.execute(createTableScore)
 
-
         connection.commit()
         connection.close()
+
 # Benutzer registrieren
     def register(self, username, password):
         connection = self.__openDb()
@@ -132,13 +132,30 @@ class DbManager:
         connection.close()
         return result
 
-
-    def updateScore(self, userId, gameId, difficulty):
+    def updateScore(self, userId, gameId, difficulty, win):
         connection = self.__openDb()
         cursor = connection.cursor()
+
         cursor.execute("""
-            UPDATE score SET win = win + 1 WHERE userid = ? AND gameid = ? AND difficulty = ?
-            """, (userId, gameId, difficulty))
+            SELECT * FROM score where userid = ? AND gameid = ? AND difficulty = ?;
+        """, (userId, gameId, difficulty))
         result = cursor.fetchall()
+        if len(result) == 0:
+            cursor.execute("""
+                INSERT INTO score (userid, gameid, difficulty, win, loss)
+                VALUES (?, ?, ?, 0, 0);
+            """, (int(userId), int(gameId), int(difficulty)))
+            result = cursor.fetchall()
+            print("insert into", result)
+            connection.commit()
+        
+        if win:
+            cursor.execute("""
+                UPDATE score SET win = win + 1 WHERE userid = ? AND gameid = ? AND difficulty = ?
+                """, (userId, gameId, difficulty))
+        else:
+            cursor.execute("""
+                UPDATE score SET loss = loss + 1 WHERE userid = ? AND gameid = ? AND difficulty = ?
+                """, (userId, gameId, difficulty))
+        connection.commit()
         connection.close()
-        return result
