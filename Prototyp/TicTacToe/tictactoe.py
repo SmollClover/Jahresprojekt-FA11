@@ -19,7 +19,7 @@ class TicTacToe:
         self.__width = width
         self.__height = height
         self.__gameState = self.__gameStateEnum["PLAYING"]
-        self.__boardState = [[0 for x in range(width)] for y in range(height)]
+        self.__boardState = [[0 for x in range(self.__width)] for y in range(self.__height)]
 
     def getBoardState(self):
         return self.__boardState
