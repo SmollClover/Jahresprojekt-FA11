@@ -1,3 +1,4 @@
+
 # Obsidian
 .obsidian/
 
@@ -135,4 +136,4 @@ dmypy.json
 .vscode/
 
 # Database
-Database/minimax.db
+Database/
