@@ -98,7 +98,7 @@ class DbManager:
         return result
     
     def __openDb(self):
-        return sqlite3.connect("Database/minimax.db")
+        return sqlite3.connect("Database/SpieleKollektion.db")
 
 # Alle Spiele bekommen
     def getGames(self):

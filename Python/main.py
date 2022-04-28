@@ -3,7 +3,7 @@ import pygame_gui
 from game.tictactoe import TicTacToe
 from game.bauernschach import Bauernschach
 from game.game import Game
-
+from user import User
 from dbManager import DbManager
 
 
@@ -579,11 +579,11 @@ def gameframe(gamename, gameid, difficulty):
                     back_to_main_menu = True    
                 elif event.ui_element == rules_button:
                     if gameid == 1:
-                        open_popup(game1_rule , game +" Regeln", 400, 400)
+                        open_popup(game1_rule , gamename +" Regeln", 400, 400)
                     elif gameid == 2:
-                        open_popup(game2_rule , game +" Regeln", 400, 400)
+                        open_popup(game2_rule , gamename +" Regeln", 400, 400)
                     elif gameid == 3:
-                        open_popup(game3_rule , game +" Regeln", 400, 400)
+                        open_popup(game3_rule , gamename +" Regeln", 400, 400)
                 elif event.ui_element == restart_button:
                     restart = True
 
