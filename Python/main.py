@@ -530,7 +530,11 @@ def gameframe(gamename, gameid, difficulty):
     #Buttons
     rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0,res[1]-40), (40, 40)),
                                              text='?', manager=manager,starting_height=-2)
-    
+
+
+    #Debug Output
+    debug_output = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0] / 256, res[1] - 45), (res[0], 50)), text="", manager=manager)
+
     #---------------------------------------------------
     is_running = True
     back_to_main_menu = False
@@ -602,6 +606,8 @@ def gameframe(gamename, gameid, difficulty):
                         message_lbl.set_text("Du hast verloren.")
                     if game_result[1] == game.gameStateEnum["DRAW"]:
                         message_lbl.set_text("Unentschieden.")
+            
+            debug_output.set_text(game.getDebugInfo())
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))

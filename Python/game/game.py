@@ -22,6 +22,7 @@ class Game:
         self.currentGame = currentGame
         self.difficulty = difficulty
         self.winnerState = self.gameStateEnum["PLAYING"]
+        self.__aiMove = None
     def eventHandler(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.handleClickEvent(event.pos[0], event.pos[1])
@@ -31,10 +32,10 @@ class Game:
         if self.currentGame.getCurrPlayer() == 1 and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.handleClickEvent(event.pos[0], event.pos[1])
         elif self.currentGame.getCurrPlayer() == -1:
-            aiMove = MiniMax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+1, self.currentGame.getCurrPlayer()).calc()
-            if len(aiMove[3]) > 0:
-                self.currentGame.clickBlock(aiMove[3][1], aiMove[3][2])
-            self.currentGame.clickBlock(aiMove[0], aiMove[1])
+            self.__aiMove = MiniMax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+1, self.currentGame.getCurrPlayer()).calc()
+            if len(self.__aiMove[3]) > 0:
+                self.currentGame.clickBlock(self.__aiMove[3][1], self.__aiMove[3][2])
+            self.currentGame.clickBlock(self.__aiMove[0], self.__aiMove[1])
             
         self.drawCurrentState(self.currentGame.getBoardState())
         self.drawCurrentPiece(self.currentGame.getCurrPiece())
@@ -42,6 +43,16 @@ class Game:
         if self.winnerState != self.gameStateEnum["PLAYING"]:
             return (1,self.winnerState)
         return (0,self.currentGame.getCurrPlayer())
+
+    def getDebugInfo(self):
+        if self.__aiMove == None:
+            return str(None)
+        else:
+            if len(self.__aiMove[3]) > 2:
+                debugInfo = "Column {} Row {} to Column {} Row {} with Score {}".format(self.__aiMove[1] + 1, self.__aiMove[0] + 1, self.__aiMove[3][2] + 1, self.__aiMove[3][1] + 1, self.__aiMove[2])
+            else:
+                debugInfo = "Column {} Row {} with Score {}".format(self.__aiMove[1] + 1, self.__aiMove[0] + 1, self.__aiMove[2])
+            return debugInfo
 
     def handleClickEvent(self, eventPosX, eventPosY):
         for col in range(len(self.BOARD)):
