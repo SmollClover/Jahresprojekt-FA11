@@ -94,7 +94,9 @@ def main_menu():
     rulesbutton_offset = button_hori_startposition+big_button_width+button_hori_gap
     scorebutton_offset = button_hori_startposition+big_button_width+(2*button_hori_gap)+small_button_width
    
-   #Game1 Buttons
+    game_state = ("",0,0) # (Name, GameID, Difficulty) | IDs are equal to DB-IDs, while 0 is 'no game' | Difficulty: 0 -> Leicht, 1 -> Mittel, 2 -> Hard
+
+    #Game1 Buttons
     game1_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, button_vert_startposition), (big_button_width, button_height)),
                                              text=gamesList[0][1], manager=manager,starting_height=-2)
     game1_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, button_vert_startposition), (small_button_width, button_height)),
@@ -145,15 +147,11 @@ def main_menu():
     
     #-----------------------------------------------------
     is_running = True
-    while is_running:
-        
-            
+    while is_running:            
         #Fenster Titel
         pygame.display.set_caption('Spiele')
         
         #Show Elemente
-        
-        
         time_delta = clock.tick(60)/1000.0
 
         for event in pygame.event.get():
@@ -319,19 +317,18 @@ def main_menu():
                     confirm_window = pygame_gui.windows.UIConfirmationDialog(rect=pygame.Rect((res[0]/2-200,10),(200,100)),action_long_desc="Bist du sicher?",action_short_name="Ja",manager=manager,window_title="Achtung!")
 
                 if event.ui_element == game1_buttonl:
-                    gameframe("Game1",1,"Leicht")
+                    game_state = (game1_button.text,1,1)
+                    
                 
                 if event.ui_element == game1_buttonm:
-                    gameframe("Game1",1,"Mittel")
+                    game_state = (game1_button.text,1,2)
 
                 if event.ui_element == game1_buttons:
-                    gameframe("Game1",1,"Schwer")
+                    game_state = (game1_button.text,1,3)
 
                 #Game2
                 if event.ui_element == game2_button:
                     print('Game2_clicked')
-
-                    gameid = 2
 
                     game2_button.hide()
                     game1_button.show()
@@ -372,13 +369,13 @@ def main_menu():
                     print('Game2_score_clicked')
 
                 if event.ui_element == game2_buttonl:
-                    gameframe("Game2",2,"Leicht")
+                    game_state = (game2_button.text,2,1)
                 
                 if event.ui_element == game2_buttonm:
-                    gameframe("Game2",2,"Mittel")
+                    game_state = (game2_button.text,2,2)
 
                 if event.ui_element == game2_buttons:
-                    gameframe("Game2",2,"Schwer")
+                    game_state = (game2_button.text,2,3)
 
                  #Game3
                 if event.ui_element == game3_button:
@@ -425,32 +422,38 @@ def main_menu():
                     print('Game3_score_clicked')
                     
                 if event.ui_element == game3_buttonl:
-                    gameframe("Game3",3,"Leicht")
+                    game_state = (game3_button.text,3,1)
                 
                 if event.ui_element == game3_buttonm:
-                    gameframe("Game3",3,"Mittel")
+                    game_state = (game3_button.text,3,2)
 
                 if event.ui_element == game3_buttons:
-                    gameframe("Game3",3,"Schwer")
+                    game_state = (game3_button.text,3,3)
                     
                 if event.ui_element == quit_button:
                     print('Quit!')
                     is_running = False
-                    #pygame.quit()
-                    
+                    #pygame.quit()                    
                              
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))
             manager.draw_ui(screen)
             pygame.display.update()
-    pygame.quit()
-    exit()
+
+            if game_state != ("",0,0):
+                is_running = False
+
+    if game_state == ("",0,0):
+        pygame.quit()
+        exit()
+    else:
+        gameframe(game_state[0], game_state[1], game_state[2])
 #-----------------[/Main Menu-Screen]-----------------------------------------------------
 #-----------------[GameFrame Screen]----------------------------------------------------
 
 def gameframe(game, gameid, difficulty):
-    
+    difficulty = str(difficulty)
     #count = 0
     time = ""
     manager.clear_and_reset()
@@ -483,13 +486,13 @@ def gameframe(game, gameid, difficulty):
     
     #---------------------------------------------------
     is_running = True
-    while is_running:
+    back_to_main_menu = False
+    while is_running and not back_to_main_menu:
        
         #Fenster Titel
         pygame.display.set_caption('Spieloberfläche')
     
-        #Show Elemente
-       
+        #Show Elemente 
         
         time_delta = clock.tick(60)/1000.0
         for event in pygame.event.get():
@@ -499,7 +502,6 @@ def gameframe(game, gameid, difficulty):
             if event.type == pygame.time: 
                 count += 1
                 
-
             #Buttons Funktionen
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
 
@@ -525,9 +527,7 @@ def gameframe(game, gameid, difficulty):
                         username_lbl.hide()
                 
                 if event.ui_element == menu_button:
-                    main_menu()
-                    is_running2 = False
-                    
+                    back_to_main_menu = True
                     
                 if event.ui_element == rules_button:
                     print('rules_clicked')
@@ -546,7 +546,10 @@ def gameframe(game, gameid, difficulty):
             screen.blit(background, (0, 0))
             manager.draw_ui(screen)
             pygame.display.update()
-    pygame.quit()
+    if back_to_main_menu:
+        main_menu()
+    else:
+        pygame.quit()
 #-----------------[/GameFrame Screen]---------------------------------------------------
 #--------------------------------Main-------------------------------------
 
