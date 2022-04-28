@@ -12,8 +12,7 @@ class Bauernschach:
         "KI": -1
     }
 
-    def __init__(self, winCount, width, height):
-        self.__winCount = winCount
+    def __init__(self, width, height):
         self.__width = width
         self.__height = height
         self.__gameState = self.__gameStateEnum["PLAYING"]
@@ -170,7 +169,7 @@ class Bauernschach:
                 
 
 if __name__=="__main__":
-    bs = Bauernschach(4, 6, 6)
+    bs = Bauernschach(6, 6)
     state = bs.getGameState()
     while state == 0:
         bs.printState()
