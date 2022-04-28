@@ -1,5 +1,3 @@
-from game.minimax import minimax
-
 class TicTacToe: 
     __currPlayer = 1 # 1 for Human | -1 for KI
     __gameStateEnum = {

@@ -455,7 +455,6 @@ def main_menu():
 
 def gameframe(game, gameid, difficulty):
     difficulty = str(difficulty)
-    #count = 0
     time = ""
     manager.clear_and_reset()
     #Hintergrundfarbe
@@ -475,7 +474,9 @@ def gameframe(game, gameid, difficulty):
     game_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),0), ((res[0]-res[1])/2,50)), text=game, manager=manager)
     difficulty_head_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),50), ((res[0]-res[1])/2,50)), text="Schwierigkeit:", manager=manager)
     difficulty_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),75), ((res[0]-res[1])/2,50)), text=difficulty, manager=manager)
-    timer_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text=time, manager=manager)
+    message_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text="", manager=manager)
+    timer_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]-((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text=time, manager=manager)
+
 
     #Buttons
     rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0,res[1]-40), (40, 40)),
@@ -487,6 +488,7 @@ def gameframe(game, gameid, difficulty):
     #---------------------------------------------------
     is_running = True
     back_to_main_menu = False
+    is_game_over = False
     while is_running and not back_to_main_menu:
        
         #Fenster Titel
@@ -538,16 +540,27 @@ def gameframe(game, gameid, difficulty):
 
                     elif gameid == 3:
                         open_popup(game3_rule , game +" Regeln", 400, 400)
-                    
-            game.eventHandler(event)
 
-            game.tick()
+            if not is_game_over:
+                game_result = game.tick(event)
+                if game_result[0] == 0: # still playing
+                    if game_result[1] == -1: # ai is moving
+                        message_lbl.set_text("Zug wird berechnet.")
+                    else: # player is moving
+                        message_lbl.set_text("Du bist dran.")
+                else: # game is over
+                    is_game_over = True
+                    if game_result[1] == game.gameStateEnum["PLAYER"]:
+                        message_lbl.set_text("Du hast gewonnen!")
+                    if game_result[1] == game.gameStateEnum["KI"]:
+                        message_lbl.set_text("Du hast verloren.")
+                    if game_result[1] == game.gameStateEnum["DRAW"]:
+                        message_lbl.set_text("Unentschieden.")
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))
             manager.draw_ui(screen)
             pygame.display.update()
-            game.postTick()
     if back_to_main_menu:
         main_menu()
     else:
