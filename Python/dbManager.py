@@ -43,38 +43,11 @@ class DbManager:
                 PRIMARY KEY(userid, gameid, difficulty)
             );       
             """
-        
-        createTableBauernLeader = """
-            CREATE TABLE IF NOT EXISTS bauernLeader (
-                userid INTEGER,
-                username VARCHAR(30)
-                score INTEGER
-            );
-        """
-
-        createTableDameLeader = """
-            CREATE TABLE IF NOT EXISTS dameLeader (
-                userid INTEGER,
-                username VARCHAR(30)
-                score INTEGER
-            );
-        """
-
-        createTableTicLeader = """
-            CREATE TABLE IF NOT EXISTS ticLeader (
-                userid INTEGER,
-                username VARCHAR(30)
-                score INTEGER
-            );
-        """
 
         cursor.execute(createTableUser)
         cursor.execute(createTableGame)
         cursor.execute(fillTableGame)
         cursor.execute(createTableScore)
-        cursor.execute(createTableBauernLeader)
-        cursor.execute(createTableDameLeader)
-        cursor.execute(createTableTicLeader)
 
 
         connection.commit()
@@ -134,10 +107,38 @@ class DbManager:
         cursor = connection.cursor()
         cursor.execute("""SELECT * FROM game;""")
         gameResult = cursor.fetchall()
+        connection.close()
         return gameResult
 
+        """
+            CREATE TABLE IF NOT EXISTS score (
+                userid INTEGER,
+                gameid INTEGER,
+                difficulty INTEGER,
+                win INTEGER,
+                loss INTEGER,
+                PRIMARY KEY(userid, gameid, difficulty)
+            );       
+            """
+
 # Bestenlisten
+    def getBestPlayer(self, gameId, difficulty):
+        connection = self.__openDb()
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT * FROM score where gameid = ? AND difficulty = ? ORDER BY win;
+        """, (gameId, difficulty))
+        result = cursor.fetchall()
+        connection.close()
+        return result
 
 
-
-    
+    def updateScore(self, userId, gameId, difficulty):
+        connection = self.__openDb()
+        cursor = connection.cursor()
+        cursor.execute("""
+            UPDATE score SET win = win + 1 WHERE userid = ? AND gameid = ? AND difficulty = ?
+            """, (userId, gameId, difficulty))
+        result = cursor.fetchall()
+        connection.close()
+        return result
