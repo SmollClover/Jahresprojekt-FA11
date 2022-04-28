@@ -1,5 +1,5 @@
 from turtle import st
-from minimax import minimax
+from game.minimax import minimax
 
 class TicTacToe: 
     __currPlayer = 1 # 1 for Human | -1 for KI

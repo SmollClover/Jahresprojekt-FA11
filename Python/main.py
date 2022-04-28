@@ -1,6 +1,8 @@
 from asyncio.windows_events import NULL
 import pygame
 import pygame_gui
+from game.tictactoe import TicTacToe
+from game.game import Game
 
 from dbManager import DbManager
 
@@ -457,7 +459,6 @@ def gameframe(game, gameid, difficulty):
     #count = 0
     time = ""
     manager.clear_and_reset()
-    pygame.init()
     #Hintergrundfarbe
     background.fill(pygame.Color("#3c3c3c"))
     
@@ -477,12 +478,12 @@ def gameframe(game, gameid, difficulty):
     difficulty_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),75), ((res[0]-res[1])/2,50)), text=difficulty, manager=manager)
     timer_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text=time, manager=manager)
 
-    #Panel
-    game_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect(((res[0]/2)-(res[1]/2),0), (res[1], res[1])),starting_layer_height=-1, manager=manager,visible=1)
-
     #Buttons
     rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0,res[1]-40), (40, 40)),
                                              text='?', manager=manager,starting_height=-2)
+
+    if gameid == 3:
+        game = Game(background, 6, 6, TicTacToe(4, 6, 6))
     
     #---------------------------------------------------
     is_running = True
@@ -493,7 +494,6 @@ def gameframe(game, gameid, difficulty):
         pygame.display.set_caption('Spieloberfläche')
     
         #Show Elemente 
-        
         time_delta = clock.tick(60)/1000.0
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -532,14 +532,15 @@ def gameframe(game, gameid, difficulty):
                 if event.ui_element == rules_button:
                     print('rules_clicked')
                     if gameid == 1:
-                        open_popup(game1_rule , "Game1 Regeln", 400, 400)
+                        open_popup(game1_rule , game +" Regeln", 400, 400)
 
                     elif gameid == 2:
-                        open_popup(game2_rule , "Game2 Regeln", 400, 400)
+                        open_popup(game2_rule , game +" Regeln", 400, 400)
 
                     elif gameid == 3:
-                        open_popup(game3_rule , "Game3 Regeln", 400, 400)
+                        open_popup(game3_rule , game +" Regeln", 400, 400)
                     
+            game.eventHandler(event)
 
             manager.process_events(event)
             manager.update(time_delta)
@@ -556,5 +557,3 @@ def gameframe(game, gameid, difficulty):
 db_manager = DbManager()
 gamesList = db_manager.getGames()
 main_menu()
-#gameframe()
-
