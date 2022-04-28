@@ -1,5 +1,3 @@
-from game.minimax import minimax
-
 class TicTacToe: 
     __currPlayer = 1 # 1 for Human | -1 for KI
     __gameStateEnum = {
@@ -29,6 +27,9 @@ class TicTacToe:
 
     def getCurrPlayer(self):
         return self.__currPlayer
+
+    def getCurrPiece():
+        return []
 
     def clickBlock(self, column, row):
         if self.__boardState[column][row] == self.__boardStateEnum["EMPTY"]:
