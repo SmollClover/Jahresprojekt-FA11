@@ -1,5 +1,5 @@
 import pygame
-from game.minimax import minimax
+from game.minimax import MiniMax
 
 class Game:
     __blockSize = 50
@@ -31,7 +31,7 @@ class Game:
         if self.currentGame.getCurrPlayer() == 1 and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.handleClickEvent(event.pos[0], event.pos[1])
         elif self.currentGame.getCurrPlayer() == -1:
-            aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+1, self.currentGame.getCurrPlayer())
+            aiMove = MiniMax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+1, self.currentGame.getCurrPlayer()).calc()
             if len(aiMove[3]) > 0:
                 self.currentGame.clickBlock(aiMove[3][1], aiMove[3][2])
             self.currentGame.clickBlock(aiMove[0], aiMove[1])

@@ -1,71 +1,83 @@
 from math import inf
 
-def minimax(game, state, depth, player, alpha = -inf, beta = inf):
-    PLAYER = {
+class MiniMax:
+    __PLAYER = {
         "min": 1,
         "max": -1,
         "undefined": 0
     }
 
-    if player == PLAYER["max"]:
-        best = [0, 0, alpha, []]
-    elif player == PLAYER["min"]:
-        best = [0, 0, beta, []]
+    def __init__(self, game, state, depth, player, alpha = -inf, beta = inf):
+        self.__game = game
+        self.__state = state
+        self.__depth = depth
+        self.__player = player
+        self.__alpha = alpha
+        self.__beta = beta
 
-    if depth == 0 or game.isGameOver(state):
-        score = game.judgeMove(state)
-        return [0, 0, score, []]
+    def calc(self):
+        if self.__player == self.__PLAYER["max"]:
+            best = [0, 0, self.__alpha, []]
+        elif self.__player == self.__PLAYER["min"]:
+            best = [0, 0, self.__beta, []]
 
-    if len(game.getCurrPiece()) < 2:
-        for move in game.validMoves(state):
-            col = move[0]
-            row = move[1]
-            state[col][row] = player
-            score = minimax(game, state, depth-1, -player, alpha, beta)
-            state[col][row] = PLAYER["undefined"]
-            score[0] = col
-            score[1] = row
+        if self.__depth == 0 or self.__game.isGameOver(self.__state):
+            score = self.__game.judgeMove(self.__state)
+            return [0, 0, score, []]
 
-            if player == PLAYER["max"]:
-                if score[2] > best[2]:
-                    best = score
-                    alpha = best[2]
-
-                    if best[2] >= beta:
-                        break
-            elif player == PLAYER["min"]:
-                if score[2] < best[2]:
-                    best = score
-                    beta = best[2]
-
-                    if best[2] <= alpha:
-                        break
-    else:
-        for piece in game.getAllPieces(state, player):
-            for move in game.validMoves(state, piece):
+        if len(self.__game.getCurrPiece()) < 2:
+            for move in self.__game.validMoves(self.__state):
                 col = move[0]
                 row = move[1]
-                state[col][row] = player
-                score = minimax(game, state, depth-1, -player, alpha, beta)
-                state[col][row] = PLAYER["undefined"]
+                self.__state[col][row] = self.__player
+                score = MiniMax(self.__game, self.__state, self.__depth - 1, - self.__player, self.__alpha, self.__beta).calc()
+                self.__state[col][row] = self.__PLAYER["undefined"]
                 score[0] = col
                 score[1] = row
 
-                if player == PLAYER["max"]:
+                if self.__player == self.__PLAYER["max"]:
                     if score[2] > best[2]:
                         best = score
-                        best[3] = piece
-                        alpha = best[2]
+                        self.__alpha = best[2]
 
-                        if best[2] >= beta:
+                        if best[2] >= self.__beta:
                             break
-                elif player == PLAYER["min"]:
+                elif self.__player == self.__PLAYER["min"]:
                     if score[2] < best[2]:
                         best = score
-                        best[3] = piece
-                        beta = best[2]
+                        self.__beta = best[2]
 
-                        if best[2] <= alpha:
+                        if best[2] <= self.__alpha:
                             break
+        else:
+            for piece in self.__game.getAllPieces(self.__state, self.__player):
+                for move in self.__game.validMoves(self.__state, piece):
+                    col = move[0]
+                    row = move[1]
+                    tempCopy = self.__state[col][row]
+                    self.__state[col][row] = self.__player
+                    self.__state[piece[1]][piece[2]] = self.__PLAYER["undefined"]
+                    score = MiniMax(self.__game, self.__state, self.__depth - 1, - self.__player, self.__alpha, self.__beta).calc()
+                    self.__state[col][row] = tempCopy
+                    self.__state[piece[1]][piece[2]] = self.__player
+                    score[0] = col
+                    score[1] = row
 
-    return best
+                    if self.__player == self.__PLAYER["max"]:
+                        if score[2] > best[2]:
+                            best = score
+                            best[3] = piece
+                            self.__alpha = best[2]
+
+                            if best[2] >= self.__beta:
+                                break
+                    elif self.__player == self.__PLAYER["min"]:
+                        if score[2] < best[2]:
+                            best = score
+                            best[3] = piece
+                            self.__beta = best[2]
+
+                            if best[2] <= self.__alpha:
+                                break
+
+        return best

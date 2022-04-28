@@ -91,7 +91,7 @@ class Bauernschach:
                 for row in range(len(state[0])):
                     if col == 0 and state[col][row] == self.__boardStateEnum["PLAYER"]:
                         return self.__gameStateEnum["PLAYER"]
-                    elif col == len(self.__boardState[0]) - 1 and state[col][row] == self.__boardStateEnum["KI"]:
+                    elif col == len(state[0]) - 1 and state[col][row] == self.__boardStateEnum["KI"]:
                         return self.__gameStateEnum["KI"]
             return self.__gameStateEnum["PLAYING"]
 

@@ -136,5 +136,7 @@ dmypy.json
 .vscode/
 
 # Database
-Database/
-.db
+Database/minimax.db
+Python/Database/minimax.db
+minimax.db
+*.db
