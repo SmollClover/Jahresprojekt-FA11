@@ -36,7 +36,6 @@ class Game:
                         if self.currentGame.getCurrPlayer() == -1:
                             aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), 4, currentGame.getCurrPlayer())
                             self.currentGame.clickBlock(aiMove[0], aiMove[1])
-                            print (aiMove)
                         self.drawCurrentState(currentGame.getBoardState())
                         winnerState = currentGame.getGameState()
                         if winnerState == self.gameStateEnum["DRAW"]:
