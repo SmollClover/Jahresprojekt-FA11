@@ -103,53 +103,21 @@ class Bauernschach:
             return -100
         if judgedState == self.__gameStateEnum["KI"]:
             return 100
-        if judgedState == self.__gameStateEnum["DRAW"]:
-            return -50
 
-        colLen = len(state)
-        rowLen = len(state[0])
-        for col in range(colLen):
-            for row in range(rowLen):
-                if row - 1 > 0:
-                    if state[col][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
-                if row + 1 < rowLen:
-                    if state[col][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
-                if col - 1 > 0:
-                    if state[col - 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col - 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
-                if col + 1 < colLen:
-                    if state[col + 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col + 1][row] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
-                if row - 1 > 0 and col - 1 > 0:
-                    if state[col - 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col - 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
-                if row + 1 > rowLen and col + 1 > colLen:
-                    if state[col + 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col + 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
-                if row - 1 > 0 and col + 1 > colLen:
-                    if state[col + 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col + 1][row - 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
-                if row + 1 > rowLen and col - 1 > 0:
-                    if state[col - 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["PLAYER"]:
-                        score += 1
-                    if state[col - 1][row + 1] == self.__boardStateEnum["KI"] and state[col][row] == self.__boardStateEnum["KI"]:
-                        score += 1
+        playerPieces = 0
+        kiPieces = 0
+        
+        for col in range(len(state)):
+            for row in range(len(state[0])):
+                if state[col][row] == self.__boardStateEnum["PLAYER"]:
+                    playerPieces += 1
+                    score += -(col + 1)
+                elif state[col][row] == self.__boardStateEnum["KI"]:
+                    kiPieces += 1
+                    score += col + 1
+
+        score += kiPieces
+        score += playerPieces
 
         return score
 
