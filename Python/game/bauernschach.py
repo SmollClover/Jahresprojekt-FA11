@@ -154,11 +154,11 @@ class Bauernschach:
                     moves.append([col + 1, row])
 
             if col + 1 < len(state) and row - 1 > 0:
-                if state[col - 1][row - 1] == self.__boardStateEnum["PLAYER"]:
+                if state[col + 1][row - 1] == self.__boardStateEnum["PLAYER"]:
                     moves.append([col + 1, row - 1])
             
             if col + 1 < len(state) and row + 1 < len(state):
-                if state[col - 1][row + 1] == self.__boardStateEnum["PLAYER"]:
+                if state[col + 1][row + 1] == self.__boardStateEnum["PLAYER"]:
                     moves.append([col + 1, row + 1])
 
         return moves
