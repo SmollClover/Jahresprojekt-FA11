@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import pygame
 import pygame_gui
 from game.tictactoe import TicTacToe
@@ -45,11 +44,9 @@ def register(username, password):
     
 #-----------[/Funktionen]----------------------------------
 #-----------[Langtexte]---------------------------------
-game1_rule = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-game2_rule = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-game3_rule = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-
-
+game1_rule = "Bauernschach ist eine simple Variante des Schachs, die nur mit Bauern gespielt wird. In der Ausgansstellung stehen dabei die weißen bzw. schwarze Spielfiguren (Bauern) auf der jeweiligen Grundlinie. Die Spieler machen abwechselnd einen Zug, wobei Weiß beginnt. Es gibt zwei erlaubte Sorten von Zügen: Ziehen oder Schlagen. Ziehen kann ein Bauer, indem er ein Feld in Richtung der gegnerischen Grundlinie (das sind die Felder, auf denen anfangs die gegnerischen Bauern stehen) geht, aber nur sofern dieses Feld frei ist (also nicht von einem eigenen oder gegnerischen Bauern besetzt ist). Schlagen kann ein Bauer in Richtung der gegnerischen Grundlinie durch diagonales Ziehen in Richtung der gegnerischen Grundlinie, aber nur auf ein Feld, auf dem ein gegnerischer Bauer steht. Ziel des Spieles ist es, einen Bauern auf die generische Grundlinie zu platzieren; wenn das gelingt, ist das Spiel sofort zu Ende und die Farbe, die das erreicht hat, hat gewonnen. Wenn ein Spieler nicht mehr ziehen kann, oder überhaupt keine Figuren mehr hat, ist das Spiel für ihn als verloren. Ein unentschieden ist nicht möglich."
+game2_rule = "Bei der Dame werden zu Beginn für beide Spieler die Spielsteine auf den schwarzen Feldern der ersten zwei Reihen des Spielfeldes verteilt. Gespielt wird nur auf den dunklen Feldern. Die Steine ziehen jeweils ein Feld vorwärts in diagonaler Richtung. Es herrscht generell Schlagzwang, gegnerische Steine müssen entsprechend übersprungen und dadurch geschlagen werden, sofern das direkt angrenzende dahinter liegende Feld frei ist. Der schlagende Stein wird auf dieses freie Feld gezogen und wenn das Zielfeld eines Sprungs auf ein Feld führt, von dem aus ein weiterer Stein übersprungen werden kann, wird der Sprung fortgesetzt. Alle übersprungenen Steine werden nach dem Zug vom Brett genommen. Es darf dabei nicht über eigene Spielsteine gesprungen werden. Das Spiel ist gewonnen, wenn ein Spieler einen Spielstein auf der gegnerischen Grundlinie platzieren kann. Wenn ein Spieler nicht mehr ziehen kann, oder keine Spielsteine mehr hat, ist das Spiel für ihn verloren. Ein unentschieden ist nicht möglich."
+game3_rule = "Beide Spieler setzen abwechselnd ihre Spielsteine auf ein freies Feld. Der Spieler, der als Erster vier seiner Spielsteine in eine Zeile, Spalte oder Diagonale setzen kann, gewinnt. Das Spiel ist unentschieden, wenn alle Felder belegt sind, ohne dass ein Spieler die erforderlichen Spielsteine in einer Reihe, Spalte oder Diagonalen setzen konnte."
 #-----------[/Langtexte]--------------------------------
 #--------------------[Main Menu-Screen]-----------------------------------
 
@@ -311,7 +308,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game1_rules_button:
-                    open_popup(game1_rule, "Game1 Regeln", 400, 400)
+                    open_popup(game1_rule, gamesList[0][1]+" Regeln", 400, 400)
                     print('Game1_rules_clicked')
                     
                 if event.ui_element == game1_score_button:
@@ -364,7 +361,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game2_rules_button:
-                    open_popup(game2_rule , "Game2 Regeln", 400, 400)
+                    open_popup(game2_rule , gamesList[1][1]+" Regeln", 400, 400)
                     print('Game2_rules_clicked')
                     
                 if event.ui_element == game2_score_button:
@@ -417,7 +414,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game3_rules_button:
-                    open_popup(game3_rule , "Game3 Regeln", 400, 400)
+                    open_popup(game3_rule , gamesList[2][1]+" Regeln", 400, 400)
                     print('Game3_rules_clicked')
                     
                 if event.ui_element == game3_score_button:
@@ -454,9 +451,8 @@ def main_menu():
 #-----------------[/Main Menu-Screen]-----------------------------------------------------
 #-----------------[GameFrame Screen]----------------------------------------------------
 
-def gameframe(game, gameid, difficulty):
+def gameframe(gamename, gameid, difficulty):
     difficulty = str(difficulty)
-    #count = 0
     time = ""
     manager.clear_and_reset()
     #Hintergrundfarbe
@@ -465,30 +461,42 @@ def gameframe(game, gameid, difficulty):
     #--------------------Elemente---------------------
     #User Menu
     user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (70, 50)), text='User', manager=manager)
-    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 205)),starting_layer_height=0, manager=manager,visible=0)
+    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 155)),starting_layer_height=0, manager=manager,visible=0)
     restart_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Neustart", manager=manager,visible=0,starting_height=3)
     menu_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Hauptmenü", manager=manager,visible=0,starting_height=3)
-    quit_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 200), (190, 50)), text="!Keine Funktion!", manager=manager,visible=0,starting_height=3)
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
     username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager,visible=0)
 
     #Label
-    game_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),0), ((res[0]-res[1])/2,50)), text=game, manager=manager)
+    game_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),0), ((res[0]-res[1])/2,50)), text=gamename, manager=manager)
     difficulty_head_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),50), ((res[0]-res[1])/2,50)), text="Schwierigkeit:", manager=manager)
     difficulty_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),75), ((res[0]-res[1])/2,50)), text=difficulty, manager=manager)
-    timer_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text=time, manager=manager)
+    message_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text="", manager=manager)
+    timer_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]-((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text=time, manager=manager)
+
 
     #Buttons
     rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0,res[1]-40), (40, 40)),
                                              text='?', manager=manager,starting_height=-2)
-
-    if gameid == 3:
-        game = Game(background, 6, 6, TicTacToe(4, 6, 6))
     
     #---------------------------------------------------
     is_running = True
     back_to_main_menu = False
-    while is_running and not back_to_main_menu:
+    restart = False
+    is_game_over = False
+
+    if gameid == 1:
+        print("starte bauernschach")
+        back_to_main_menu = True
+        # game = Game(background, 6, 6, Bauernschach(4, 6, 6), difficulty)
+    elif gameid == 2:
+        print("starte dame")
+        back_to_main_menu = True
+        # game = Game(background, 6, 6, Dame(4, 6, 6), difficulty)
+    elif gameid == 3:
+        game = Game(background, 6, 6, TicTacToe(4, 6, 6), difficulty)
+
+    while is_running and not back_to_main_menu and not restart:
        
         #Fenster Titel
         pygame.display.set_caption('Spieloberfläche')
@@ -504,53 +512,56 @@ def gameframe(game, gameid, difficulty):
                 
             #Buttons Funktionen
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-
-                if event.ui_element == quit_button:
-                    print('Quit!')
-                    #is_running = False
-                    #pygame.quit()
-
                 if event.ui_element == user_button:
                     if dd_menu.visible == 0:
                         dd_menu.visible = 1
-                        quit_button.show()
                         restart_button.show()
                         menu_button.show()
                         user_lbl.show()
                         username_lbl.show()
                     else:
                         dd_menu.visible = 0
-                        quit_button.hide()
                         restart_button.hide()
                         menu_button.hide()
                         user_lbl.hide()
                         username_lbl.hide()
-                
-                if event.ui_element == menu_button:
-                    back_to_main_menu = True
-                    
-                if event.ui_element == rules_button:
+                elif event.ui_element == menu_button:
+                    back_to_main_menu = True    
+                elif event.ui_element == rules_button:
                     print('rules_clicked')
                     if gameid == 1:
                         open_popup(game1_rule , game +" Regeln", 400, 400)
-
                     elif gameid == 2:
                         open_popup(game2_rule , game +" Regeln", 400, 400)
-
                     elif gameid == 3:
                         open_popup(game3_rule , game +" Regeln", 400, 400)
-                    
-            game.eventHandler(event)
+                elif event.ui_element == restart_button:
+                    restart = True
 
-            game.tick()
+            if not is_game_over:
+                game_result = game.tick(event)
+                if game_result[0] == 0: # still playing
+                    if game_result[1] == -1: # ai is moving
+                        message_lbl.set_text("Zug wird berechnet.")
+                    else: # player is moving
+                        message_lbl.set_text("Du bist dran.")
+                else: # game is over
+                    is_game_over = True
+                    if game_result[1] == game.gameStateEnum["PLAYER"]:
+                        message_lbl.set_text("Du hast gewonnen!")
+                    if game_result[1] == game.gameStateEnum["KI"]:
+                        message_lbl.set_text("Du hast verloren.")
+                    if game_result[1] == game.gameStateEnum["DRAW"]:
+                        message_lbl.set_text("Unentschieden.")
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))
             manager.draw_ui(screen)
             pygame.display.update()
-            game.postTick()
     if back_to_main_menu:
         main_menu()
+    elif restart:
+        gameframe(gamename, gameid, difficulty)
     else:
         pygame.quit()
 #-----------------[/GameFrame Screen]---------------------------------------------------
