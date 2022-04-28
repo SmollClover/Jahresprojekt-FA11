@@ -41,6 +41,16 @@ class Bauernschach:
     def getCurrPiece(self):
         return self.__selectedPiece
 
+    def getAllPieces(self, state, player):
+        pieces = []
+
+        for col in range(len(state)):
+            for row in range(len(state[0])):
+                if state[col][row] == player:
+                    pieces.append([True, col, row])
+
+        return pieces
+
     def clickBlock(self, column, row):
         if self.__selectedPiece[0] and not self.__boardState[column][row] == self.__currPlayer:
             validMoves = self.validMoves(self.__boardState, self.__selectedPiece)
@@ -105,7 +115,7 @@ class Bauernschach:
 
         playerPieces = 0
         kiPieces = 0
-        
+
         for col in range(len(state)):
             for row in range(len(state[0])):
                 if state[col][row] == self.__boardStateEnum["PLAYER"]:
