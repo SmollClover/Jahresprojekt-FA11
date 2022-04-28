@@ -21,6 +21,9 @@ clock = pygame.time.Clock()
 #Rules Windows
 def open_popup(text,title,width,height):
     rules_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-200,10),(width,height)),html_message=text,manager=manager,window_title=title)
+
+#def open_confirm(text,title,width,height):
+ #   confirm_window = pygame_gui.windows.ui_message_window.UIConfirmationDialog(rect=pygame.Rect((res[0]/2-200,10),(width,height)),html_message=text,manager=manager,window_title=title)
     
 #-----------[/Funktionen]----------------------------------
 #-----------[Langtexte]---------------------------------
@@ -304,6 +307,7 @@ def main_menu():
                     
                 if event.ui_element == game1_score_button:
                     print('Game1_score_clicked')
+                    confirm_window = pygame_gui.windows.UIConfirmationDialog(rect=pygame.Rect((res[0]/2-200,10),(200,100)),action_long_desc="Bist du sicher?",action_short_name="Ja",manager=manager,window_title="Achtung!")
 
                 if event.ui_element == game1_buttonl:
                     gameframe("Game1",1,"Leicht")
