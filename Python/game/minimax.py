@@ -8,35 +8,64 @@ def minimax(game, state, depth, player, alpha = -inf, beta = inf):
     }
 
     if player == PLAYER["max"]:
-        best = [0, 0, alpha]
+        best = [0, 0, alpha, []]
     elif player == PLAYER["min"]:
-        best = [0, 0, beta]
+        best = [0, 0, beta, []]
 
     if depth == 0 or game.isGameOver(state):
         score = game.judgeMove(state)
-        return [0, 0, score]
+        return [0, 0, score, []]
 
-    for move in game.validMoves(state):
-        col = move[0]
-        row = move[1]
-        state[col][row] = player
-        score = minimax(game, state, depth-1, -player, alpha, beta)
-        state[col][row] = PLAYER["undefined"]
-        score[0] = col
-        score[1] = row
+    if len(game.getCurrPiece()) < 2:
+        for move in game.validMoves(state):
+            col = move[0]
+            row = move[1]
+            state[col][row] = player
+            score = minimax(game, state, depth-1, -player, alpha, beta)
+            state[col][row] = PLAYER["undefined"]
+            score[0] = col
+            score[1] = row
 
-        if player == PLAYER["max"]:
-            if score[2] > best[2]:
-                best = score
-                alpha = best[2]
+            if player == PLAYER["max"]:
+                if score[2] > best[2]:
+                    best = score
+                    alpha = best[2]
 
-                if best[2] >= beta:
-                    break
-        elif player == PLAYER["min"]:
-            if score[2] < best[2]:
-                best = score
-                beta = best[2]
+                    if best[2] >= beta:
+                        break
+            elif player == PLAYER["min"]:
+                if score[2] < best[2]:
+                    best = score
+                    beta = best[2]
 
-                if best[2] <= alpha:
-                    break
+                    if best[2] <= alpha:
+                        break
+    else:
+        for piece in game.getAllPieces(state, player):
+            for move in game.validMoves(state, piece):
+                col = move[0]
+                row = move[1]
+                state[col][row] = player
+                score = minimax(game, state, depth-1, -player, alpha, beta)
+                state[col][row] = PLAYER["undefined"]
+                score[0] = col
+                score[1] = row
+
+                if player == PLAYER["max"]:
+                    if score[2] > best[2]:
+                        best = score
+                        best[3] = piece
+                        alpha = best[2]
+
+                        if best[2] >= beta:
+                            break
+                elif player == PLAYER["min"]:
+                    if score[2] < best[2]:
+                        best = score
+                        best[3] = piece
+                        beta = best[2]
+
+                        if best[2] <= alpha:
+                            break
+
     return best
