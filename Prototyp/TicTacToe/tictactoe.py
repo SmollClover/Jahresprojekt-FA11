@@ -1,4 +1,3 @@
-from turtle import st
 from minimax import minimax
 
 class TicTacToe: 
@@ -129,15 +128,17 @@ class TicTacToe:
         return not (self.__boardCondition(state) == self.__gameStateEnum["PLAYING"])
         
     def judgeMove(self, state):
+        score = 0
+
         judgedState = self.__boardCondition(state)
         if judgedState == self.__gameStateEnum["PLAYER"]:
-            return -1
-        elif judgedState == self.__gameStateEnum["KI"]:
-            return 1
-        elif judgedState == self.__gameStateEnum["DRAW"]:
-            return -1
-        else:
-            return 0
+            score += -20
+        if judgedState == self.__gameStateEnum["KI"]:
+            score += 10
+        if judgedState == self.__gameStateEnum["DRAW"]:
+            score += -5
+
+        return score
 
     def validMoves(self, state):
         blocks = []
