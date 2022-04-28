@@ -1,6 +1,7 @@
 import pygame
 import pygame_gui
 from game.tictactoe import TicTacToe
+from game.bauernschach import Bauernschach
 from game.game import Game
 
 from dbManager import DbManager
@@ -272,10 +273,6 @@ def main_menu():
                         
                 #Game1
                 if event.ui_element == game1_button:
-                    print('Game1_clicked')
-
-                    gameid = 1
-
                     game1_button.hide()
                     game2_button.show()
                     game3_button.show()
@@ -327,8 +324,6 @@ def main_menu():
 
                 #Game2
                 if event.ui_element == game2_button:
-                    print('Game2_clicked')
-
                     game2_button.hide()
                     game1_button.show()
                     game3_button.show()
@@ -378,10 +373,6 @@ def main_menu():
 
                  #Game3
                 if event.ui_element == game3_button:
-                    print('Game3_clicked')
-
-                    gameid = 3
-
                     game3_button.hide()
                     game1_button.show()
                     game2_button.show()
@@ -486,9 +477,7 @@ def gameframe(gamename, gameid, difficulty):
     is_game_over = False
 
     if gameid == 1:
-        print("starte bauernschach")
-        back_to_main_menu = True
-        # game = Game(background, 6, 6, Bauernschach(4, 6, 6), difficulty)
+        game = Game(background, 6, 6, Bauernschach(6, 6), difficulty)
     elif gameid == 2:
         print("starte dame")
         back_to_main_menu = True

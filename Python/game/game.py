@@ -29,7 +29,7 @@ class Game:
 
     def tick(self, event):
         if self.currentGame.getCurrPlayer() == 1 and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            self.handleClickEvent(event.pos[0], event.pos[1])  
+            self.handleClickEvent(event.pos[0], event.pos[1])
         elif self.currentGame.getCurrPlayer() == -1:
             aiMove = minimax(self.currentGame, self.currentGame.getBoardState(), int(self.difficulty)+2, self.currentGame.getCurrPlayer())
             self.currentGame.clickBlock(aiMove[0], aiMove[1])
