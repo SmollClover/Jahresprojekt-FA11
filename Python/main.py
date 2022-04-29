@@ -28,6 +28,7 @@ def open_popup(text,title,width,height):
 def login(username, password):
     result = db_manager.login(username, password) #result = False | User
     if result:
+        User.setCurrUser(result)
         popupText = "Hallo " + result.getName() + "! Du hast dich erfolgreich eingeloggt."
         open_popup(popupText, "Login", 250, 170)
         return result.getName()
@@ -111,7 +112,12 @@ def main_menu():
     ##Anmelden & Registrieren ----
     loginWindow = 0  # 0 = both closed | 1 = login opened | 2 = registration opened
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((0, 0), (190, 30)), text="Angemeldet als:", manager=manager, visible=0,container=dd_menu)
-    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((0, 20), (190, 30)), text="Gast/Username", manager=manager, visible=0, container=dd_menu)
+    user = User.getCurrUser()
+    if user:
+        users_name =  user.getName()
+    else:
+        users_name = "Gast/Username"
+    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((0, 20), (190, 30)), text=users_name, manager=manager, visible=0, container=dd_menu)
     id_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((0, 70), (190, 30)), text="Benutzername:", manager=manager, visible=0, container=dd_menu)
     id_txtentry = pygame_gui.elements.UITextEntryLine(relative_rect=pygame.Rect((5, 150), (190, 30)), manager=manager, visible=0, container=dd_menu)
     pw_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((0, 180), (190, 30)), text="Passwort:", manager=manager, visible=0, container=dd_menu)
@@ -517,7 +523,12 @@ def gameframe(gamename, gameid, difficulty):
     restart_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Neustart", manager=manager,visible=0,starting_height=3)
     menu_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Hauptmenü", manager=manager,visible=0,starting_height=3)
     user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
-    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager,visible=0)
+    user = User.getCurrUser()
+    if user:
+        users_name =  user.getName()
+    else:
+        users_name = "Gast/Username"
+    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text=users_name, manager=manager,visible=0)
 
     #Label
     game_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),0), ((res[0]-res[1])/2,50)), text=gamename, manager=manager)
@@ -602,8 +613,14 @@ def gameframe(gamename, gameid, difficulty):
                     is_game_over = True
                     if game_result[1] == game.gameStateEnum["PLAYER"]:
                         message_lbl.set_text("Du hast gewonnen!")
+                        user = User.getCurrUser()
+                        if user:
+                            db_manager.updateScore(user.getId(), gameid, difficulty, True)
                     if game_result[1] == game.gameStateEnum["KI"]:
                         message_lbl.set_text("Du hast verloren.")
+                        user = User.getCurrUser()
+                        if user:
+                            db_manager.updateScore(user.getId(), gameid, difficulty, False)
                     if game_result[1] == game.gameStateEnum["DRAW"]:
                         message_lbl.set_text("Unentschieden.")
             
