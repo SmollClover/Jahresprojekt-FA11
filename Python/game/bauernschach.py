@@ -70,14 +70,22 @@ class Bauernschach:
 
     def __boardCondition(self, state):
         def isNoMove():
+            playerMoves = 0
+            kiMoves = 0
+
             for col in range(len(state)):
                 for row in range(len(state[0])):
-                    if state[col][row] == self.__currPlayer:
-                        if len(self.validMoves(state, [True, col, row])) <= 0:
-                            if self.__boardStateEnum["KI"] == self.__currPlayer:
-                                return self.__gameStateEnum["PLAYER"]
-                            elif self.__boardStateEnum["PLAYER"] == self.__currPlayer:
-                                return self.__gameStateEnum["KI"]
+                    if len(self.validMoves(state, [True, col, row])) > 0:
+                        if state[col][row] == self.__boardStateEnum["PLAYER"]:
+                            playerMoves += 1
+                        elif state[col][row] == self.__boardStateEnum["KI"]:
+                            kiMoves += 1
+
+            if playerMoves == 0:
+                return self.__gameStateEnum["KI"]
+            elif kiMoves == 0:
+                return self.__gameStateEnum["PLAYER"]
+                
             return self.__gameStateEnum["PLAYING"]
 
         def isNoPieceWin():
