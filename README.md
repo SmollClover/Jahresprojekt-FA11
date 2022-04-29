@@ -4,10 +4,10 @@
 
 ## Benutzung
 
-Folgende Sachen müssen über PIP vorinstalliert sein:
-
 ```bash
-pip install pygame pygame_gui
+cd Python
+pip install -r requirements.txt
+python main.py
 ```
 
 ## Inhaltsverzeichnis
