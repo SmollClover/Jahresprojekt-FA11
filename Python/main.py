@@ -1,3 +1,6 @@
+from os import environ
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
+
 import pygame
 import pygame_gui
 from game.tictactoe import TicTacToe
