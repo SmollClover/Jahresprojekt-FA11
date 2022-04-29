@@ -130,9 +130,9 @@ class Bauernschach:
 
         judgedState = self.__boardCondition(state)
         if judgedState == self.__gameStateEnum["KI"]:
-            return 100
+            return 1000
         if judgedState == self.__gameStateEnum["PLAYER"]:
-            return -100
+            return -1000
 
         playerPieces = 0
         kiPieces = 0

@@ -1,6 +1,3 @@
-from cmath import inf
-
-
 class TicTacToe: 
     id = 3
 
@@ -138,9 +135,9 @@ class TicTacToe:
 
         judgedState = self.__boardCondition(state)
         if judgedState == self.__gameStateEnum["KI"]:
-            return inf
+            return 1000
         if judgedState == self.__gameStateEnum["PLAYER"]:
-            return -inf
+            return -1000
         if judgedState == self.__gameStateEnum["DRAW"]:
             score += -50
 
