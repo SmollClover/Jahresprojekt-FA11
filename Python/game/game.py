@@ -5,7 +5,8 @@ from game.minimax import MiniMax
 class Game:
     __blockSize = 50
     __blockPadding = 5
-    __boardColor = (255,255,255)
+    __boardColor = { False: (113,113,113), True: (147,147,147)}
+    __light = False
 
     gameStateEnum = {
         "PLAYING": 0,
@@ -25,7 +26,6 @@ class Game:
         self.difficulty = difficulty
         self.winnerState = self.gameStateEnum["PLAYING"]
         self.__aiMove = None
-
         
         currDir = path.dirname(path.realpath(__file__)) + '/../'
         gameName = dbManager.getGame(self.currentGame.id)[0][0]
@@ -75,27 +75,27 @@ class Game:
     def drawCurrentState(self, state):
         for col in range(len(state)):
             for row in range(len(state[0])):
-                newRect = self.__drawBlock(col, row)
+                newRect = self.__drawBlock(self.__light, col, row)
 
                 if state[col][row] != 0:
                     self.__drawImage(self.__imageType[state[col][row]], col, row)
 
                 self.BOARD[col][row] = newRect
+                self.__light = not self.__light
+            self.__light = not self.__light
 
     def drawCurrentPiece(self, piece):
         if piece[0]:
             col = piece[1]
             row = piece[2]
-            newRect = self.__drawBlock(col, row)
             self.__drawImage(self.__imageType[2], col, row)
-            self.BOARD[col][row] = newRect
 
-    def __drawBlock(self, posY, posX):
+    def __drawBlock(self, light, posY, posX):
         fieldWidth = (self.__blockSize + self.__blockPadding) * self.gameWidth - self.__blockPadding
         fieldHeight = (self.__blockSize + self.__blockPadding) * self.gameHeight - self.__blockPadding
         offsetX = int(self.WINDOW_WIDTH / 2 - fieldWidth / 2)
         offsetY = int(self.WINDOW_HEIGHT / 2 - fieldHeight / 2)
-        return pygame.draw.rect(self.SCREEN, self.__boardColor, (offsetX + (posX * (self.__blockSize + self.__blockPadding)), offsetY + (posY * (self.__blockSize + self.__blockPadding)), self.__blockSize, self.__blockSize))
+        return pygame.draw.rect(self.SCREEN, self.__boardColor[light], (offsetX + (posX * (self.__blockSize + self.__blockPadding)), offsetY + (posY * (self.__blockSize + self.__blockPadding)), self.__blockSize, self.__blockSize))
 
     def __drawImage(self, image, posY, posX):
         fieldWidth = (self.__blockSize + self.__blockPadding) * self.gameWidth - self.__blockPadding
