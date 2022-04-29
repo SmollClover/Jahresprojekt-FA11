@@ -109,6 +109,15 @@ class DbManager:
         connection.close()
         return gameResult
 
+# Spiel per ID bekommen
+    def getGame(self, gameId):
+        connection = self.__openDb()
+        cursor = connection.cursor()
+        cursor.execute("""SELECT name FROM game WHERE id = ?;""", (gameId,))
+        gameResult = cursor.fetchall()
+        connection.close()
+        return gameResult
+
 # Bestenlisten
     def getBestPlayer(self, gameId, difficulty):
         connection = self.__openDb()

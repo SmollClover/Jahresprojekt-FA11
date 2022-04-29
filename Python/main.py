@@ -553,13 +553,13 @@ def gameframe(gamename, gameid, difficulty):
     is_game_over = False
 
     if gameid == 1:
-        game = Game(background, 6, 6, Bauernschach(6, 6), difficulty)
+        game = Game(db_manager, background, 6, 6, Bauernschach(6, 6), difficulty)
     elif gameid == 2:
         print("starte dame")
         back_to_main_menu = True
         # game = Game(background, 6, 6, Dame(4, 6, 6), difficulty)
     elif gameid == 3:
-        game = Game(background, 6, 6, TicTacToe(4, 6, 6), difficulty)
+        game = Game(db_manager, background, 6, 6, TicTacToe(4, 6, 6), difficulty)
 
     while is_running and not back_to_main_menu and not restart:
        

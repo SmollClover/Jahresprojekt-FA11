@@ -1,4 +1,6 @@
 class Bauernschach: 
+    id = 1
+
     __currPlayer = 1 # 1 for Human | -1 for KI
     __gameStateEnum = {
         "PLAYING": 0,

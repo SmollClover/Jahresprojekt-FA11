@@ -4,7 +4,8 @@ from game.minimax import MiniMax
 class Game:
     __blockSize = 50
     __blockPadding = 5
-    __chipColor = {0: (255,255,255), 1: (255, 0, 0), -1: (255, 0, 255), 2: (60, 235, 184)}
+    __boardColor = (255,255,255)
+
     gameStateEnum = {
         "PLAYING": 0,
         "PLAYER": 1,
@@ -12,7 +13,7 @@ class Game:
         "DRAW": 3,
     }
 
-    def __init__(self, screen, gameWidth, gameHeight, currentGame, difficulty):
+    def __init__(self, dbManager, screen, gameWidth, gameHeight, currentGame, difficulty):
         self.SCREEN = screen
         self.gameWidth = gameWidth
         self.gameHeight = gameHeight
@@ -23,6 +24,14 @@ class Game:
         self.difficulty = difficulty
         self.winnerState = self.gameStateEnum["PLAYING"]
         self.__aiMove = None
+
+        gameName = dbManager.getGame(self.currentGame.id)[0][0]
+        self.__imageType = {
+            1: pygame.image.load(f"./sprite/{gameName}_Player.png"), 
+            -1: pygame.image.load(f"./sprite/{gameName}_KI.png"), 
+            2: pygame.image.load(f"./sprite/{gameName}_Player_Selected.png")
+        }
+        
     def eventHandler(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.handleClickEvent(event.pos[0], event.pos[1])
@@ -63,20 +72,34 @@ class Game:
     def drawCurrentState(self, state):
         for col in range(len(state)):
             for row in range(len(state[0])):
-                self.BOARD[col][row] = self.__drawBlock(self.__chipColor[state[col][row]], col, row)
+                newRect = self.__drawBlock(col, row)
+
+                if state[col][row] != 0:
+                    self.__drawImage(self.__imageType[state[col][row]], col, row)
+
+                self.BOARD[col][row] = newRect
 
     def drawCurrentPiece(self, piece):
         if piece[0]:
             col = piece[1]
             row = piece[2]
-            self.BOARD[col][row] = self.__drawBlock(self.__chipColor[2], col, row)
+            newRect = self.__drawBlock(col, row)
+            self.__drawImage(self.__imageType[2], col, row)
+            self.BOARD[col][row] = newRect
 
-    def __drawBlock(self, color, posY, posX):
+    def __drawBlock(self, posY, posX):
         fieldWidth = (self.__blockSize + self.__blockPadding) * self.gameWidth - self.__blockPadding
         fieldHeight = (self.__blockSize + self.__blockPadding) * self.gameHeight - self.__blockPadding
         offsetX = int(self.WINDOW_WIDTH / 2 - fieldWidth / 2)
         offsetY = int(self.WINDOW_HEIGHT / 2 - fieldHeight / 2)
-        return pygame.draw.rect(self.SCREEN, color, (offsetX + (posX * (self.__blockSize + self.__blockPadding)), offsetY + (posY * (self.__blockSize + self.__blockPadding)), self.__blockSize, self.__blockSize))
+        return pygame.draw.rect(self.SCREEN, self.__boardColor, (offsetX + (posX * (self.__blockSize + self.__blockPadding)), offsetY + (posY * (self.__blockSize + self.__blockPadding)), self.__blockSize, self.__blockSize))
+
+    def __drawImage(self, image, posY, posX):
+        fieldWidth = (self.__blockSize + self.__blockPadding) * self.gameWidth - self.__blockPadding
+        fieldHeight = (self.__blockSize + self.__blockPadding) * self.gameHeight - self.__blockPadding
+        offsetX = int(self.WINDOW_WIDTH / 2 - fieldWidth / 2)
+        offsetY = int(self.WINDOW_HEIGHT / 2 - fieldHeight / 2)
+        return self.SCREEN.blit(pygame.transform.scale(image, (self.__blockSize, self.__blockSize)), (offsetX + (posX * (self.__blockSize + self.__blockPadding)), offsetY + (posY * (self.__blockSize + self.__blockPadding)), self.__blockSize, self.__blockSize))
 
     def initBoard(self):
         fieldWidth = (self.__blockSize + self.__blockPadding) * self.gameWidth - self.__blockPadding
