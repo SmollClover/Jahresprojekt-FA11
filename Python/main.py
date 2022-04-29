@@ -1,3 +1,5 @@
+from asyncore import loop
+from sqlite3 import Time
 import pygame
 import pygame_gui
 from game.tictactoe import TicTacToe
@@ -73,6 +75,7 @@ def main_menu():
     #--------------------Elemente------------------------
     #Label
     menu_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]/2-150, 20), (300, 50)), text="Hauptbildschirm", manager=manager)
+    menu_lbl.set_active_effect(pygame_gui.TEXT_EFFECT_TYPING_APPEAR,time_per_letter=1)
    
     ##Highscore Screen---------------------
     #Panel
@@ -506,6 +509,7 @@ def main_menu():
 def gameframe(gamename, gameid, difficulty):
     difficulty = str(difficulty)
     time = ""
+    temp = "None"
     manager.clear_and_reset()
     #Hintergrundfarbe
     background.fill(pygame.Color("#3c3c3c"))
@@ -513,27 +517,40 @@ def gameframe(gamename, gameid, difficulty):
     #--------------------Elemente---------------------
     #User Menu
     user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (70, 50)), text='User', manager=manager)
-    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 155)),starting_layer_height=0, manager=manager,visible=0)
-    restart_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Neustart", manager=manager,visible=0,starting_height=3)
-    menu_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Hauptmenü", manager=manager,visible=0,starting_height=3)
-    user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 50), (190, 30)), text="Angemeldet als:", manager=manager,visible=0)
-    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((5, 70), (190, 30)), text="Gast/Username", manager=manager,visible=0)
+    dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 155)),starting_layer_height=9, manager=manager,visible=0)
+    restart_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Neustart", manager=manager,visible=0,starting_height=10)
+    menu_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Hauptmenü", manager=manager,visible=0,starting_height=10)
+    user_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((0, 0), (200, 30)), text="Angemeldet als:", manager=manager,visible=0,container=dd_menu)
+    username_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((0, 20), (200, 30)), text="Gast/Username", manager=manager,visible=0,container=dd_menu)
 
     #Label
-    game_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),0), ((res[0]-res[1])/2,50)), text=gamename, manager=manager)
-    difficulty_head_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),50), ((res[0]-res[1])/2,50)), text="Schwierigkeit:", manager=manager)
-    difficulty_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),75), ((res[0]-res[1])/2,50)), text=difficulty, manager=manager)
-    message_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]- ((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text="", manager=manager)
-    timer_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]-((res[0]-res[1])/2),150), ((res[0]-res[1])/2,50)), text=time, manager=manager)
+    if difficulty == "1": difficulty_as_str = "Leicht"
+    if difficulty == "2": difficulty_as_str = "Mittel"
+    if difficulty == "3": difficulty_as_str = "Schwer"
+    difficulty_head_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((20,res[1]/2-50), ((res[0]-res[1])/2,50)), text="Schwierigkeit:", manager=manager)
+    difficulty_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((20,res[1]/2-25), ((res[0]-res[1])/2,50)), text=difficulty_as_str, manager=manager)
+    
+    bauernschach_formation = " "+t+t
+    dame_formation = " "+t+t+t
+    tictactoe_formation = "  "+t+t
+    if gameid == 1: formation = bauernschach_formation
+    if gameid == 2: formation = dame_formation
+    if gameid == 3: formation = tictactoe_formation
+
+    title_lbl = pygame_gui.elements.UITextBox(relative_rect=pygame.Rect((res[0]*0.25,0), ((res[1]-80),40)), html_text="<font size=5>"+formation+"<b><i>"+gamename+"</i></b>", manager=manager)
+    message_lbl = pygame_gui.elements.UITextBox(relative_rect=pygame.Rect((res[0]*0.25,res[1]-40), ((res[1]-80),40)), html_text="", manager=manager)
 
 
     #Buttons
     rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0,res[1]-40), (40, 40)),
                                              text='?', manager=manager,starting_height=-2)
 
-
     #Debug Output
-    debug_output = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0] / 256, res[1] - 45), (res[0], 50)), text="", manager=manager)
+    debug_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]-40,res[1]-40), (40, 40)),
+                                             text='...', manager=manager,starting_height=-2)
+    debug_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((res[0]*0.75,0), (res[0]*0.25, res[1]-40)),starting_layer_height=0, manager=manager,visible=0)
+    debug_output_txt = pygame_gui.elements.UITextBox(relative_rect=pygame.Rect((-3,-3), ((res[0]*0.25), res[1]-40)),html_text="<font size=1>Debug", manager=manager,container=debug_panel)
+
 
     #---------------------------------------------------
     is_running = True
@@ -563,9 +580,24 @@ def gameframe(gamename, gameid, difficulty):
             
             if event.type == pygame.time: 
                 count += 1
-                
+
+
+            if event.type == pygame.MOUSEBUTTONDOWN or pygame.MOUSEBUTTONUP and pygame.mouse.get_pos()[0]<(res[0]*0.75):
+                if game.getDebugInfo() == temp:
+                    temp = game.getDebugInfo()
+                    debug_output_txt.set_text(debug_output_txt.html_text)
+                else:
+                    temp = game.getDebugInfo()
+                    debug_output_txt.set_text(debug_output_txt.html_text +"<br>"+str(clock.get_time)+"<br>" + str(game.getDebugInfo()))
+
             #Buttons Funktionen
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                if event.ui_element == debug_button:
+                    if debug_panel.visible == 0:
+                        debug_panel.show()
+                    else:
+                        debug_panel.hide()
+
                 if event.ui_element == user_button:
                     if dd_menu.visible == 0:
                         dd_menu.visible = 1
@@ -607,7 +639,9 @@ def gameframe(gamename, gameid, difficulty):
                     if game_result[1] == game.gameStateEnum["DRAW"]:
                         message_lbl.set_text("Unentschieden.")
             
-            debug_output.set_text(game.getDebugInfo())
+            
+            
+            
             manager.process_events(event)
             manager.update(time_delta)
             screen.blit(background, (0, 0))
