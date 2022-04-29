@@ -1,4 +1,5 @@
 import pygame
+from os import path
 from game.minimax import MiniMax
 
 class Game:
@@ -25,11 +26,13 @@ class Game:
         self.winnerState = self.gameStateEnum["PLAYING"]
         self.__aiMove = None
 
+        
+        currDir = path.dirname(path.realpath(__file__)) + '/../'
         gameName = dbManager.getGame(self.currentGame.id)[0][0]
         self.__imageType = {
-            1: pygame.image.load(f"./sprite/{gameName}_Player.png"), 
-            -1: pygame.image.load(f"./sprite/{gameName}_KI.png"), 
-            2: pygame.image.load(f"./sprite/{gameName}_Player_Selected.png")
+            1: pygame.image.load(f"{currDir}sprite/{gameName}_Player.png"), 
+            -1: pygame.image.load(f"{currDir}sprite/{gameName}_KI.png"), 
+            2: pygame.image.load(f"{currDir}sprite/{gameName}_Player_Selected.png")
         }
         
     def eventHandler(self, event):
