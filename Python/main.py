@@ -14,9 +14,7 @@ res = (680, 420)
 screen = pygame.display.set_mode(res)
 #Game Fenster
 background = pygame.Surface(res)
-manager = pygame_gui.UIManager(res, 'Themes/base.json')
-#manager.get_theme().load_theme('Themes/label.json')
-#manager.get_theme().load_theme('Themes/button.json')
+manager = pygame_gui.UIManager(res)#, 'Themes/base.json')
 clock = pygame.time.Clock()
 #----------[/Meta]----------------------------------------
 #----------[Funktionen]---------------------------------
@@ -36,6 +34,7 @@ def login(username, password):
         popupText = "Hallo " + result.getName() + "! Du hast dich erfolgreich eingeloggt."
         open_popup(popupText, "Login", 250, 170)
         return result.getName()
+    return False
 
 #Register
 def register(username, password):
@@ -59,7 +58,7 @@ def set_pers_highscoretext(difficulty, user, gameid, difficultyId):
             loss = winloss[0][1]
         return "<font size=5>"+t+t+"<b>"+difficulty+"</b></font><br>Eingeloggt als:"+t+str(user.getName())+"<br><b>------------------------------</b><br>Siege: "+t+t+t+t+str(win)+"<br><br>Niederlagen:   "+t+t+str(loss)
     else:
-        return "<font size=5>"+t+t+"<b>"+difficulty+"</b></font><br>Du bist nicht angemeldet:<br><b>------------------------------</b><br>Registriere dich, oder melde dich an um Statistiken speichern zu können.<br><br>"
+        return "<font size=5>"+t+t+"<b>"+difficulty+"</b></font><br>Du bist nicht angemeldet.<br><b>------------------------------</b><br>Registriere dich, oder melde dich an um Statistiken speichern zu können.<br><br>"
 
 
 def set_publ_highscoretext(difficulty):
@@ -351,6 +350,9 @@ def main_menu():
                             result = login(username, password)
                             if result:
                                 username_lbl.set_text(result)
+                            else:
+                                popupText = "Das Benutzername oder Passwort ist falsch."
+                                open_popup(popupText, "Login", 250, 170)
                         elif loginWindow == 2: # registration is active
                             register(username, password)
                         
