@@ -89,16 +89,34 @@ class DbManager:
             """,
             (username, hashedPass.hexdigest())
         )
-        usernameResult = cursor.fetchall() 
-        if len(usernameResult) == 0:
+        userResult = cursor.fetchall() 
+        if len(userResult) == 0:
             result = False
         else:
-            result = User(usernameResult[0][0], usernameResult[0][1])
+            result = User(userResult[0][0], userResult[0][1])
         connection.close()
         return result
     
     def __openDb(self):
         return sqlite3.connect("Database/SpieleKollektion.db")
+
+    def getUserFromId(self, id):
+        connection = self.__openDb()
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT id, name
+            FROM user
+            WHERE id = ?;
+            """,
+            (id,)
+        )
+        userResult = cursor.fetchall() 
+        if len(userResult) == 0:
+            result = False
+        else:
+            result = User(userResult[0][0], userResult[0][1])
+        connection.close()
+        return result
 
 # Alle Spiele bekommen
     def getGames(self):
@@ -108,6 +126,13 @@ class DbManager:
         gameResult = cursor.fetchall()
         connection.close()
         return gameResult
+
+    def getGameIdFromName(self, name):
+        games = self.getGames()
+        for game in games:
+            if game[1] == name:
+                return game[0]
+        return -1
 
 # Bestenlisten
     def getBestPlayer(self, gameId, difficulty):
@@ -145,4 +170,16 @@ class DbManager:
                 UPDATE score SET loss = loss + 1 WHERE userid = ? AND gameid = ? AND difficulty = ?
                 """, (userId, gameId, difficulty))
         connection.commit()
+        connection.close()
+    
+    def getWinLossFromUser(self, user, gameId, difficulty):
+        connection = self.__openDb()
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT win, loss FROM score where userid = ? AND gameid = ? AND difficulty = ?;
+        """, (user.getId(), gameId, difficulty))
+
+        result = cursor.fetchall()
+        connection.close()
+        return result 
         connection.close()
