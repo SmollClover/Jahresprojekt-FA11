@@ -1,3 +1,6 @@
+from cmath import inf
+
+
 class TicTacToe: 
     __currPlayer = 1 # 1 for Human | -1 for KI
     __gameStateEnum = {
@@ -132,12 +135,12 @@ class TicTacToe:
         score = 0
 
         judgedState = self.__boardCondition(state)
-        if judgedState == self.__gameStateEnum["PLAYER"]:
-            return -100
         if judgedState == self.__gameStateEnum["KI"]:
-            return 100
+            return inf
+        if judgedState == self.__gameStateEnum["PLAYER"]:
+            return -inf
         if judgedState == self.__gameStateEnum["DRAW"]:
-            return -50
+            score += -50
 
         colLen = len(state)
         rowLen = len(state[0])
