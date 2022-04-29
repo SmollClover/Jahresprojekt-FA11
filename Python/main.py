@@ -97,13 +97,17 @@ def main_menu():
 
     manager.clear_and_reset()
     pygame.init()
+    pygame.display.set_caption('Spielekollektion')
 
     #Hintergrundfarbe
     background.fill(pygame.Color("#3c3c3c"))
 
     #--------------------Elemente------------------------
     #Label
-    menu_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((res[0]/2-150, 20), (300, 50)), text="Hauptbildschirm", manager=manager)   
+    font = pygame.font.SysFont(None, 72)
+    text = font.render("Spielekollektion", True, (255, 255, 255))
+    background.blit(text, (res[0] / 2 - text.get_width() / 2, 20))
+
     ##Highscore Screen---------------------
     #Panel
     highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect(((res[0]/2)-((res[1]*1.25)/2),0), (res[1]*1.25, res[1])),starting_layer_height=3, manager=manager,visible=0)
@@ -174,8 +178,8 @@ def main_menu():
                                              text=gamesList[0][1], manager=manager,starting_height=1)
     game1_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, button_vert_startposition), (small_button_width, button_height)),
                                              text='Regeln', manager=manager,starting_height=1)
-    game1_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, button_vert_startposition), (small_button_width+30, button_height)),
-                                             text='Scorelist', manager=manager,starting_height=1)
+    game1_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, button_vert_startposition), (small_button_width, button_height)),
+                                             text='Scores', manager=manager,starting_height=1)
 
 
     #Game1 Difficulty Buttons
@@ -191,8 +195,8 @@ def main_menu():
                                              text=gamesList[1][1], manager=manager,starting_height=1)
     game2_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (small_button_width, button_height)),
                                              text='Regeln', manager=manager,starting_height=1)
-    game2_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (small_button_width+30, button_height)),
-                                             text='Scorelist', manager=manager,starting_height=1)
+    game2_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (small_button_width, button_height)),
+                                             text='Scores', manager=manager,starting_height=1)
     
     #Game2 Difficulty Buttons
     game2_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + button_height + button_vert_gap)), (big_button_width/3+4, button_height)),
@@ -208,8 +212,8 @@ def main_menu():
                                              text=gamesList[2][1], manager=manager,starting_height=1)  
     game3_rules_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((rulesbutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width, button_height)),
                                              text='Regeln', manager=manager,starting_height=1) 
-    game3_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width+30, button_height)),
-                                             text='Scorelist', manager=manager,starting_height=1)
+    game3_score_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((scorebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (small_button_width, button_height)),
+                                             text='Scores', manager=manager,starting_height=1)
     
     #Game3 Difficulty Buttons
     game3_buttonl = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((gamebutton_offset, (button_vert_startposition + (2*button_height) + (2*button_vert_gap))), (big_button_width/3+4, button_height)),
@@ -221,10 +225,7 @@ def main_menu():
     
     #-----------------------------------------------------
     is_running = True
-    while is_running:            
-        #Fenster Titel
-        pygame.display.set_caption('Spiele')
-        
+    while is_running:      
         #Show Elemente
         time_delta = clock.tick(60)/1000.0
 
