@@ -71,6 +71,17 @@ def fill_publ_highscores(user,wins,loses):
         user += "&nbsp"*spacer
     return  "<br>"+user+str(wins)+t+t+str(loses)+"<br>"  
 
+def loadScores(difficulty, title, pers, publ, button):
+    gameid = db_manager.getGameIdFromName(title.text.split(" ")[0])
+    pers.set_text(set_pers_highscoretext(button.text, User.getCurrUser(), gameid, difficulty))
+    publ.set_text(set_publ_highscoretext(button.text))
+    best_player = db_manager.getBestPlayer(gameid, difficulty)
+    best_player.sort(key=sort_scores_wins_asc)
+    for scoreValue in best_player:
+        user = db_manager.getUserFromId(scoreValue[0])
+        publ.set_text(publ.html_text + fill_publ_highscores(user.getName(),scoreValue[3],scoreValue[4])) 
+
+
 
 #-----------[/Funktionen]----------------------------------
 #-----------[Langtexte]---------------------------------
@@ -220,8 +231,7 @@ def main_menu():
             if event.type == pygame.QUIT:
                 is_running = False
             
-            #Buttons Funktionen
-                
+            #Buttons Funktionen     
             if event.type == pygame_gui.UI_BUTTON_PRESSED:  
 
                 #Highscore screen
@@ -229,43 +239,12 @@ def main_menu():
                     highscore_panel.hide()
 
                 if event.ui_element == hs_data_l_button:
-                    gameid = db_manager.getGameIdFromName(hs_title_lbl.text.split(" ")[0])
-                    data_pers_highscore_txt.set_text(set_pers_highscoretext(hs_data_l_button.text, User.getCurrUser(), gameid, 1))
-                    data_publ_highscore_txt.set_text(set_publ_highscoretext(hs_data_l_button.text))
-                    
-                    best_player = db_manager.getBestPlayer(gameid, 1)
-                    best_player.sort(key=sort_scores_wins_asc)
-                    for scoreValue in best_player:
-                        user = db_manager.getUserFromId(scoreValue[0])
-                        data_publ_highscore_txt.set_text(data_publ_highscore_txt.html_text + fill_publ_highscores(user.getName(),scoreValue[3],scoreValue[4]))    
-
+                    loadScores(1,hs_title_lbl, data_pers_highscore_txt, data_publ_highscore_txt, hs_data_l_button)
                 if event.ui_element == hs_data_m_button:
-                    gameid = db_manager.getGameIdFromName(hs_title_lbl.text.split(" ")[0])
-                    data_pers_highscore_txt.set_text(set_pers_highscoretext(hs_data_m_button.text, User.getCurrUser(), gameid, 2))
-                    data_publ_highscore_txt.set_text(set_publ_highscoretext(hs_data_m_button.text))
-                    
-                    best_player = db_manager.getBestPlayer(gameid, 2)
-                    best_player.sort(key=sort_scores_wins_asc)
-                    for scoreValue in best_player:
-                        user = db_manager.getUserFromId(scoreValue[0])
-                        data_publ_highscore_txt.set_text(data_publ_highscore_txt.html_text + fill_publ_highscores(user.getName(),scoreValue[3],scoreValue[4]))    
-
-                    # data_pers_highscore_txt.set_text(set_pers_highscoretext(hs_data_m_button.text,5000,3,3,3))
-                    # data_publ_highscore_txt.set_text(set_publ_highscoretext(hs_data_m_button.text))
+                    loadScores(2,hs_title_lbl, data_pers_highscore_txt, data_publ_highscore_txt, hs_data_m_button)
 
                 if event.ui_element == hs_data_s_button:
-                    gameid = db_manager.getGameIdFromName(hs_title_lbl.text.split(" ")[0])
-                    data_pers_highscore_txt.set_text(set_pers_highscoretext(hs_data_s_button.text, User.getCurrUser(), gameid, 3))
-                    data_publ_highscore_txt.set_text(set_publ_highscoretext(hs_data_s_button.text))
-                    
-                    best_player = db_manager.getBestPlayer(gameid, 3)
-                    best_player.sort(key=sort_scores_wins_asc)
-                    for scoreValue in best_player:
-                        user = db_manager.getUserFromId(scoreValue[0])
-                        data_publ_highscore_txt.set_text(data_publ_highscore_txt.html_text + fill_publ_highscores(user.getName(),scoreValue[3],scoreValue[4]))    
-
-                    # data_pers_highscore_txt.set_text(set_pers_highscoretext(hs_data_s_button.text,420,2,4,0))
-                    # data_publ_highscore_txt.set_text(set_publ_highscoretext(hs_data_s_button.text))
+                    loadScores(3,hs_title_lbl, data_pers_highscore_txt, data_publ_highscore_txt, hs_data_s_button)
 
                 #User menu
                 if event.ui_element == user_button:
@@ -414,8 +393,8 @@ def main_menu():
                     
                 if event.ui_element == game1_score_button:
                     hs_title_lbl.set_text(game1_button.text + " Highscores")
-                    highscore_panel.show()
-                   
+                    highscore_panel.show()    
+                    loadScores(1,hs_title_lbl, data_pers_highscore_txt, data_publ_highscore_txt, hs_data_l_button)
 
                 if event.ui_element == game1_buttonl:
                     game_state = (game1_button.text,1,1)
@@ -466,6 +445,7 @@ def main_menu():
                 if event.ui_element == game2_score_button:
                     hs_title_lbl.set_text(game2_button.text + " Highscores")
                     highscore_panel.show()
+                    loadScores(1,hs_title_lbl, data_pers_highscore_txt, data_publ_highscore_txt, hs_data_l_button)
 
                 if event.ui_element == game2_buttonl:
                     game_state = (game2_button.text,2,1)
@@ -515,6 +495,7 @@ def main_menu():
                 if event.ui_element == game3_score_button:
                     hs_title_lbl.set_text(game3_button.text + " Highscores")
                     highscore_panel.show()
+                    loadScores(1,hs_title_lbl, data_pers_highscore_txt, data_publ_highscore_txt, hs_data_l_button)
                     
                 if event.ui_element == game3_buttonl:
                     game_state = (game3_button.text,3,1)
