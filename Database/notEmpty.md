@@ -1,1 +1,0 @@
-This file exists just to be sure, that the 'Database' Folder isn't empty!

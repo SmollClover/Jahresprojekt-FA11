@@ -1,6 +1,7 @@
 import sqlite3
 import hashlib
 from user import User
+from os import path, makedirs
 
 class DbManager: 
 
@@ -98,7 +99,11 @@ class DbManager:
         return result
     
     def __openDb(self):
-        return sqlite3.connect("Database/SpieleKollektion.db")
+        currDir = path.dirname(path.realpath(__file__))
+        
+        if not path.exists(currDir + "/Database"):
+            makedirs(currDir + "/Database")
+        return sqlite3.connect(f"{currDir}/Database/SpieleKollektion.db")
 
     def getUserFromId(self, id):
         connection = self.__openDb()
