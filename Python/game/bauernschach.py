@@ -104,7 +104,7 @@ class Bauernschach:
     def isGameOver(self, state):
         return not (self.__boardCondition(state) == self.__gameStateEnum["PLAYING"])
         
-    def judgeMove(self, state):
+    def judgeMove(self, state, player):
         score = 0
 
         judgedState = self.__boardCondition(state)
@@ -120,13 +120,23 @@ class Bauernschach:
             for row in range(len(state[0])):
                 if state[col][row] == self.__boardStateEnum["PLAYER"]:
                     playerPieces += 1
-                    score += -(col + 1)
+                    if player == self.__boardStateEnum["PLAYER"]:
+                        score += (col + 1) * 2
+                    elif player == self.__boardStateEnum["KI"]:
+                        score -= (col + 1) * 2
                 elif state[col][row] == self.__boardStateEnum["KI"]:
                     kiPieces += 1
-                    score += col + 1
+                    if player == self.__boardStateEnum["PLAYER"]:
+                        score -= (col + 1) * 2
+                    elif player == self.__boardStateEnum["KI"]:
+                        score += (col + 1) * 2
 
-        score += kiPieces
-        score += playerPieces
+        if player == self.__boardStateEnum["PLAYER"]:
+            score += kiPieces
+            score -= (playerPieces) * 2
+        elif player == self.__boardStateEnum["KI"]:
+            score -= (kiPieces) * 2
+            score += playerPieces
 
         return score
 

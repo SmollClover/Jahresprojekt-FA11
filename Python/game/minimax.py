@@ -22,7 +22,7 @@ class MiniMax:
             best = [0, 0, self.__beta, []]
 
         if self.__depth == 0 or self.__game.isGameOver(self.__state):
-            score = self.__game.judgeMove(self.__state)
+            score = self.__game.judgeMove(self.__state, self.__player)
             return [0, 0, score, []]
 
         if len(self.__game.getCurrPiece()) < 2:

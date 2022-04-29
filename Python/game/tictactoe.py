@@ -128,7 +128,7 @@ class TicTacToe:
     def isGameOver(self, state):
         return not (self.__boardCondition(state) == self.__gameStateEnum["PLAYING"])
         
-    def judgeMove(self, state):
+    def judgeMove(self, state, player):
         score = 0
 
         judgedState = self.__boardCondition(state)
