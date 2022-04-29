@@ -109,17 +109,6 @@ class DbManager:
         connection.close()
         return gameResult
 
-        """
-            CREATE TABLE IF NOT EXISTS score (
-                userid INTEGER,
-                gameid INTEGER,
-                difficulty INTEGER,
-                win INTEGER,
-                loss INTEGER,
-                PRIMARY KEY(userid, gameid, difficulty)
-            );       
-            """
-
 # Bestenlisten
     def getBestPlayer(self, gameId, difficulty):
         connection = self.__openDb()
@@ -145,7 +134,6 @@ class DbManager:
                 VALUES (?, ?, ?, 0, 0);
             """, (int(userId), int(gameId), int(difficulty)))
             result = cursor.fetchall()
-            print("insert into", result)
             connection.commit()
         
         if win:
