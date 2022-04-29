@@ -1,3 +1,6 @@
+from cmath import inf
+
+
 class Bauernschach: 
     id = 1
 
@@ -129,10 +132,10 @@ class Bauernschach:
         score = 0
 
         judgedState = self.__boardCondition(state)
-        if judgedState == self.__gameStateEnum["PLAYER"]:
-            return -100
         if judgedState == self.__gameStateEnum["KI"]:
-            return 100
+            return inf
+        if judgedState == self.__gameStateEnum["PLAYER"]:
+            return -inf
 
         playerPieces = 0
         kiPieces = 0
