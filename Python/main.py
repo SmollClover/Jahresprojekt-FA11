@@ -13,7 +13,8 @@ from dbManager import DbManager
 #--------[Meta]------------------------------------------
 pygame.init()
 #Auflösung
-res = (680, 420)
+#res = (680, 420)
+res = (1280, 720)
 screen = pygame.display.set_mode(res)
 #Game Fenster
 background = pygame.Surface(res)
@@ -104,7 +105,7 @@ def main_menu():
 
     #--------------------Elemente------------------------
     #Label
-    font = pygame.font.SysFont(None, 72)
+    font = pygame.font.SysFont(None, int(res[1] / 5.8))
     text = font.render("Spielekollektion", True, (255, 255, 255))
     background.blit(text, (res[0] / 2 - text.get_width() / 2, 20))
 

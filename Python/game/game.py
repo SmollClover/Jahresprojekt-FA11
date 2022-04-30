@@ -3,8 +3,6 @@ from os import path
 from game.minimax import MiniMax
 
 class Game:
-    __blockSize = 50
-    __blockPadding = 5
     __boardColor = { False: (113,113,113), True: (147,147,147)}
     __light = False
 
@@ -21,6 +19,8 @@ class Game:
         self.gameHeight = gameHeight
         self.WINDOW_WIDTH, self.WINDOW_HEIGHT = self.SCREEN.get_size()
         self.BOARD = [[0 for x in range(self.gameWidth)] for y in range(self.gameHeight)]
+        self.__blockSize = self.SCREEN.get_height() / 8.4
+        self.__blockPadding = self.SCREEN.get_height() / 84
         self.initBoard()
         self.currentGame = currentGame
         self.difficulty = difficulty
