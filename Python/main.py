@@ -115,7 +115,7 @@ def main_menu():
     hs_head_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0,0), (res[1]*1.25-6, 40)),starting_layer_height=3, manager=manager,container=highscore_panel)
     publ_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0,70), ((res[1]*1.25)/2, res[1]-76)),starting_layer_height=3, manager=manager,container=highscore_panel)
     data_publ_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((-3,30), ((res[1]*1.25)/2, res[1]-109)),starting_layer_height=3, manager=manager,container=publ_highscore_panel)
-    pers_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((((res[0]/2)-((res[1]*0.2)-1))-52,70), ((res[1]*1.25)/2, res[1]-76)),starting_layer_height=3, manager=manager,container=highscore_panel)
+    pers_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((((res[0]/2)-((res[1]*0.2)-1))-52,70), (((res[1]*1.25)/2)-1, res[1]-76)),starting_layer_height=3, manager=manager,container=highscore_panel)
     data_pers_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((-3,30), ((res[1]*1.25)/2, res[1]-109)),starting_layer_height=4, manager=manager,container=pers_highscore_panel)
     close_hs_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[1]*1.25-46, 0), (40, 40)), text='X',starting_height = 4, manager=manager, container=highscore_panel)
    
