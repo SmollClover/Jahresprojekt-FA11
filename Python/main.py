@@ -28,7 +28,7 @@ def sort_scores_wins_asc(item):
 
 #Popup Windows
 def open_popup(text,title,width,height):
-    popup_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-200,10),(width,height)),html_message=text,manager=manager,window_title=title)
+    popup_window = pygame_gui.windows.ui_message_window.UIMessageWindow(rect=pygame.Rect((res[0]/2-width/2,res[1]/2-height/2),(width,height)),html_message=text,manager=manager,window_title=title)
 
 #Login
 def login(username, password):
@@ -36,7 +36,7 @@ def login(username, password):
     if result:
         User.setCurrUser(result)
         popupText = "Hallo " + result.getName() + "! Du hast dich erfolgreich eingeloggt."
-        open_popup(popupText, "Login", 250, 170)
+        open_popup(popupText, "Login", 350, 170)
         return result.getName()
     return False
 
@@ -44,9 +44,9 @@ def login(username, password):
 def register(username, password):
     successful = db_manager.register(username, password)                    
     if successful:
-        open_popup("Du hast dich erfolgreich registriert!", "Registrierung", 250, 170)
+        open_popup("Du hast dich erfolgreich registriert!", "Registrierung", 350, 170)
     else:
-        open_popup("Der Benutzername ist bereits vergeben.", "Registrierung", 250, 170)
+        open_popup("Der Benutzername ist bereits vergeben.", "Registrierung", 350, 170)
 
 # def open_confirm(text,title,width,height):
 #     confirm_window = pygame_gui.windows.ui_message_window.UIConfirmationDialog(rect=pygame.Rect((res[0]/2-200,10),(width,height)),html_message=text,manager=manager,window_title=title)
@@ -60,19 +60,19 @@ def set_pers_highscoretext(difficulty, user, gameid, difficultyId):
         else:
             win = winloss[0][0]
             loss = winloss[0][1]
-        return "<font size=5>"+t+t+"<b>"+difficulty+"</b></font><br>Eingeloggt als:"+t+str(user.getName())+"<br><b>------------------------------</b><br>Siege: "+t+t+t+t+str(win)+"<br><br>Niederlagen:   "+t+t+str(loss)
+        return "<font size=5>"+t+t+"<b>"+t+t+difficulty+"</b></font><br>Eingeloggt als: "+str(user.getName())+"<br><b>------------------------------------------------------</b><br>Siege: "+t+t+t+t+"&nbsp;&nbsp;"+str(win)+"<br><br>Niederlagen:   "+t+t+"&nbsp;&nbsp;"+str(loss)
     else:
-        return "<font size=5>"+t+t+"<b>"+difficulty+"</b></font><br>Du bist nicht angemeldet.<br><b>------------------------------</b><br>Registriere dich, oder melde dich an um Statistiken speichern zu können.<br><br>"
+        return "<font size=5>"+t+t+"<b>"+t+t+difficulty+"</b></font><br>Du bist nicht angemeldet.<br><b>------------------------------------------------------</b><br>Registriere dich, oder melde dich an um Statistiken speichern zu können.<br><br>"
 
 
 def set_publ_highscoretext(difficulty):
-    return "<font size=5>"+t+t+"<b>"+difficulty+"</b></font><br>Spieler"+t+"Siege"+t+"Niederl.<br><b>----------------------------</b>"
+    return "<font size=5>"+t+t+"<b>"+t+t+difficulty+"</b></font><br>Spieler"+t+t+t+t+"Siege"+t+t+t+"&nbsp;&nbsp;Niederlagen<br><b>------------------------------------------------------</b>"
 
 def fill_publ_highscores(user,wins,loses):
-    spacer = 13-len(user)
+    spacer = 25-len(user)
     if spacer > 0:
         user += "&nbsp"*spacer
-    return  "<br>"+user+str(wins)+t+t+str(loses)+"<br>"  
+    return  "<br>"+user+str(wins)+t+t+t+t+t+t+"&nbsp;"+str(loses)+"<br>"  
 
 def loadScores(difficulty, title, pers, publ, button):
     gameid = db_manager.getGameIdFromName(title.text.split(" ")[0])
@@ -107,7 +107,7 @@ def main_menu():
     #Label
     font = pygame.font.SysFont(None, int(res[1] / 5.8))
     text = font.render("Spielekollektion", True, (255, 255, 255))
-    background.blit(text, (res[0] / 2 - text.get_width() / 2, 20))
+    background.blit(text, (res[0] / 2 - text.get_width() / 2, 90))
 
     ##Highscore Screen---------------------
     #Panel
@@ -115,7 +115,7 @@ def main_menu():
     hs_head_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0,0), (res[1]*1.25-6, 40)),starting_layer_height=3, manager=manager,container=highscore_panel)
     publ_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0,70), ((res[1]*1.25)/2, res[1]-76)),starting_layer_height=3, manager=manager,container=highscore_panel)
     data_publ_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((-3,30), ((res[1]*1.25)/2, res[1]-109)),starting_layer_height=3, manager=manager,container=publ_highscore_panel)
-    pers_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect(((res[0]/2)-((res[1]*0.2)-1),70), ((res[1]*1.25)/2, res[1]-76)),starting_layer_height=3, manager=manager,container=highscore_panel)
+    pers_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((((res[0]/2)-((res[1]*0.2)-1))-52,70), ((res[1]*1.25)/2, res[1]-76)),starting_layer_height=3, manager=manager,container=highscore_panel)
     data_pers_highscore_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((-3,30), ((res[1]*1.25)/2, res[1]-109)),starting_layer_height=4, manager=manager,container=pers_highscore_panel)
     close_hs_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[1]*1.25-46, 0), (40, 40)), text='X',starting_height = 4, manager=manager, container=highscore_panel)
    
@@ -141,7 +141,7 @@ def main_menu():
         users_name =  user.getName()
     else:
         users_name = "Gast"
-    user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (70, 50)), text=users_name, manager=manager, starting_height=21)
+    user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (90, 50)), text=users_name, manager=manager, starting_height=21)
     dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 205)),starting_layer_height=20, manager=manager, visible=0)
     signin_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Anmelden", manager=manager, visible=0, starting_height=21)
     signup_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Registrieren", manager=manager, visible=0, starting_height=21)
@@ -166,8 +166,8 @@ def main_menu():
     small_button_width = 75
     button_vert_gap = 10
     button_hori_gap = 10
-    button_vert_startposition = 100
-    button_hori_startposition = 100
+    button_vert_startposition = 240
+    button_hori_startposition = 400
     gamebutton_offset = (button_hori_startposition)
     rulesbutton_offset = button_hori_startposition+big_button_width+button_hori_gap
     scorebutton_offset = button_hori_startposition+big_button_width+(2*button_hori_gap)+small_button_width
@@ -396,7 +396,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game1_rules_button:
-                    open_popup(game1_rule, gamesList[0][1]+" Regeln", 400, 400)
+                    open_popup(game1_rule, gamesList[0][1]+" Regeln", 600, 600)
                     
                 if event.ui_element == game1_score_button:
                     hs_title_lbl.set_text(game1_button.text + " Highscores")
@@ -450,7 +450,7 @@ def main_menu():
                     # quit_button.set_position((5,200))
                     
                 if event.ui_element == game2_rules_button:
-                    open_popup(game2_rule , gamesList[1][1]+" Regeln", 400, 400)
+                    open_popup(game2_rule , gamesList[1][1]+" Regeln", 600, 600)
 
                 if event.ui_element == game2_score_button:
                     hs_title_lbl.set_text(game2_button.text + " Highscores")
@@ -500,7 +500,7 @@ def main_menu():
                     quit_button.set_position((5,200))
                     
                 if event.ui_element == game3_rules_button:
-                    open_popup(game3_rule , gamesList[2][1]+" Regeln", 400, 400)
+                    open_popup(game3_rule , gamesList[2][1]+" Regeln", 600, 600)
                     
                 if event.ui_element == game3_score_button:
                     hs_title_lbl.set_text(game3_button.text + " Highscores")
@@ -552,7 +552,7 @@ def gameframe(gamename, gameid, difficulty):
         users_name =  user.getName()
     else:
         users_name = "Gast"
-    user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (70, 50)), text=users_name, manager=manager)
+    user_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((0, 0), (90, 50)), text=users_name, manager=manager)
     dd_menu = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((0, 50), (200, 155)), starting_layer_height=9, manager=manager, visible=0)
     restart_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 100), (190, 50)), text="Neustart", manager=manager, visible=0, starting_height=10)
     menu_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((5, 150), (190, 50)), text="Hauptmenü", manager=manager, visible=0, starting_height=10)
@@ -566,9 +566,9 @@ def gameframe(gamename, gameid, difficulty):
     difficulty_head_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((20,res[1]/2-50), ((res[0]-res[1])/2,50)), text="Schwierigkeit:", manager=manager)
     difficulty_lbl = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((20,res[1]/2-25), ((res[0]-res[1])/2,50)), text=difficulty_as_str, manager=manager)
     
-    bauernschach_formation = " "+t+t
+    bauernschach_formation = "   "+t+t+t+t+t
     dame_formation = " "+t+t+t
-    tictactoe_formation = "  "+t+t
+    tictactoe_formation = t+t+t+t+t+t
     if gameid == 1: formation = bauernschach_formation
     if gameid == 2: formation = dame_formation
     if gameid == 3: formation = tictactoe_formation
@@ -585,7 +585,7 @@ def gameframe(gamename, gameid, difficulty):
     debug_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((res[0]-40,res[1]-40), (40, 40)),
                                              text='...', manager=manager,starting_height=-2)
     debug_panel = pygame_gui.elements.UIPanel(relative_rect=pygame.Rect((res[0]*0.75,0), (res[0]*0.25, res[1]-40)),starting_layer_height=0, manager=manager,visible=0)
-    debug_output_txt = pygame_gui.elements.UITextBox(relative_rect=pygame.Rect((-3,-3), ((res[0]*0.25), res[1]-40)),html_text="<font size=1>Debug", manager=manager,container=debug_panel)
+    debug_output_txt = pygame_gui.elements.UITextBox(relative_rect=pygame.Rect((-3,-3), ((res[0]*0.25), res[1]-40)),html_text="<font size=12>Debug", manager=manager,container=debug_panel)
 
 
     #---------------------------------------------------
@@ -651,11 +651,11 @@ def gameframe(gamename, gameid, difficulty):
                     back_to_main_menu = True    
                 elif event.ui_element == rules_button:
                     if gameid == 1:
-                        open_popup(game1_rule , gamename +" Regeln", 400, 400)
+                        open_popup(game1_rule , gamename +" Regeln", 600, 600)
                     elif gameid == 2:
-                        open_popup(game2_rule , gamename +" Regeln", 400, 400)
+                        open_popup(game2_rule , gamename +" Regeln", 600, 600)
                     elif gameid == 3:
-                        open_popup(game3_rule , gamename +" Regeln", 400, 400)
+                        open_popup(game3_rule , gamename +" Regeln", 600, 600)
                 elif event.ui_element == restart_button:
                     restart = True
 

@@ -19,8 +19,8 @@ class Game:
         self.gameHeight = gameHeight
         self.WINDOW_WIDTH, self.WINDOW_HEIGHT = self.SCREEN.get_size()
         self.BOARD = [[0 for x in range(self.gameWidth)] for y in range(self.gameHeight)]
-        self.__blockSize = self.SCREEN.get_height() / 8.4
-        self.__blockPadding = self.SCREEN.get_height() / 84
+        self.__blockSize = 94
+        self.__blockPadding = 10
         self.initBoard()
         self.currentGame = currentGame
         self.difficulty = difficulty
